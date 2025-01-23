@@ -1,0 +1,50 @@
+body {
+  margin: 0;
+}
+
+#solver_button {
+  display: block;
+  position: relative;
+  max-width: 700px;
+  text-align: center;
+  margin: 0 auto;
+  padding-bottom: 10px;
+}
+
+#type,
+#example,
+#rules,
+#param,
+#solve,
+#solver_reset {
+  display: inline-block;
+  font-size: 14px;
+  position: relative;
+  padding: 2px 5px;
+  min-height: 24px;
+  text-decoration: none;
+  border-radius: 4px;
+  background-color: var(--bgMain);
+  color: var(--fgMain);
+}
+
+#parameter_box {
+  display: none;
+  font-size: 14px;
+  margin-top: 10px;
+  width: 600px;
+  text-align: center;
+  padding: 2px 5px;
+  text-decoration: none;
+  border: 2px solid #000;
+  border-radius: 4px;
+}
+
+.parameter_div {
+  display: inline-block;
+}
+
+#param_shapeset, #param_letters {
+  min-width: 100px;
+  text-align: center;
+}
