@@ -1,0 +1,49 @@
+/** The Hitori solver. */
+
+modules["hitori"] = {
+  name: "Hitori",
+  category: "shade",
+  solve: async function solve(puzzle) {
+    solver.reset();
+    solver.registerPuzzle(puzzle);
+    solver.addProgramLine(grid(puzzle.row, puzzle.col));
+    solver.addProgramLine(shadeColor("black"));
+    solver.addProgramLine(uniqueNum("not black", "row"));
+    solver.addProgramLine(uniqueNum("not black", "row"));
+    solver.addProgramLine(adjacent(4));
+    solver.addProgramLine(avoidAdjacentColor());
+    solver.addProgramLine(
+      gridColorConnected("not black", 4, [puzzle.row, puzzle.col])
+    );
+
+    for (const [point, num] of puzzle.text.entries()) {
+      validateDirection(point.r, point.c, point.d);
+      validateType(point.pos, "normal");
+      if (typeof num === "number") {
+        solver.addProgramLine(`number(${point.r}, ${point.c}, ${num}).`);
+      }
+    }
+
+    for (const [point, color] of puzzle.surface.entries()) {
+      if (BaseColor.DARK.includes(color)) {
+        solver.addProgramLine(`black(${point.r}, ${point.c}).`);
+      } else {
+        solver.addProgramLine(`not black(${point.r}, ${point.c}).`);
+      }
+    }
+
+    solver.addProgramLine(display());
+    await solver.solve();
+
+    return solver.solutions;
+  },
+  examples: [
+    {
+      data: "m=edit&p=7VbLbttKDN37K4xZz2Ko52Pnpkk3qdPWuQgCQTBkV0GE2lAqW0Uhw/8eklJKz7iL3kWTTSGIIDmjw6PDMeXd965sK53g5SfaaMDLDzy+PZPybcbrtt5vqmyqZ93+sWnR0frm6ko/lJtdNcnHXcXk0KdZP9P9hyxXoLTy8AZV6P5zdug/Zv1c9wtcUjrA3PWwyUP3Utw7XifvYkiCQX8++ujeo7uu2/WmWl4PmU9Z3t9qRXXe8dPkqm3zo1IjD4rXzXZVU2JV7vFldo/107iy674237pxLxRH3c8GuosXukRnpOsLXXIHuuT9hi499pfppsXxiLJ/QcLLLCfu/4mbiLvIDmjn2UF5ET5KvebOKC8mpClSe0kkbiJ1Er7BRCQhuOseJnwJfXedKggDn/C9X2FA6KfbA8IXuIDQQwkJPZAwcJ8OLfSQ0KV26HIPCT2W0OUeuvgh4VsJ0vcEwdU3ogpWwn6DiCokEtr8Ixs9InRpReT2LiJtZXvsso8JXYrF9tmICV1qx3bfYvdcJKStgCWutgmhS+cSV5mE8KXRiYuf2ucutc9F6uqakq5SLnW1SQlfdAfjHjww7huAsQ8fGLt3YEhg4QTGPR0AZ1XgrApQFRESgKqcoILbRgCqI9IAkNT2DlttHAbAI+Ge7RVbj+0tTgzd+2zfszVsQ7bXvOeS7R3bC7YB24j3xDRz/nAq8TwKhjnkDSPqFbjlHol1elFTXzEuJrladO1Dua5wrM+77apqp/Om3ZYbhd/R40T9VHxz34N/n9Y3+rRSC8z/+sC+/S8rR3XxfPc3Wj11y3K5bjYK/51pzsdn+Vdnjz8/9Vjvm7ZWxeQZ",
+    },
+    {
+      url: "https://puzz.link/p?hitori/10/10/1174453399113445756a2345678aa82513328aa85417a698323227a9411566517a43236688115329986a115274aa99886611",
+      test: false,
+    },
+  ],
+};
