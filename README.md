@@ -1,4 +1,4 @@
-# noqx-js
+# Noqx-JS
 
 Pure Javascript implementation of noqx.
 

@@ -26,6 +26,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/clingo-wasm@0.1.1/dist/clingo.web.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/gh/swaroopg92/penpa-edit@master/docs/js/libs/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/swaroopg92/penpa-edit@master/docs/js/libs/purify.min.js"></script>
@@ -67,12 +68,20 @@
 <body>
   <header id="header">
     <span id="title">Setter Mode</span>
-    <span id="version-info"><a href="http://github.com/T0nyX1ang/noqx" target="_blank">Noqx</a> &copy; 2023-2024 /
+    <span id="version-info"><a href="http://github.com/T0nyX1ang/noqx-js" target="_blank">Noqx-JS</a> &copy; 2023-2024 /
       <a href="https://github.com/swaroopg92/penpa-edit" target="_blank">Penpa+</a> &copy; 2020-2024
       <button id="page_help" style="display: none;">Help</button> </span>
   </header>
 
   <script src="./js/app.js"></script>
+  <script src="./js/noqx/puzzle/base.js"></script>
+  <script src="./js/noqx/puzzle/penpa.js"></script>
+  <script src="./js/noqx/rule/common.js"></script>
+  <script src="./js/noqx/rule/helper.js"></script>
+  <script src="./js/noqx/rule/neighbor.js"></script>
+  <script src="./js/noqx/solution.js"></script>
+  <script src="./js/noqx/manager.js"></script>
+  <script src="./js/solver/mines.js"></script>
 
   <div id="app-container">
     <div id="tool-container">
