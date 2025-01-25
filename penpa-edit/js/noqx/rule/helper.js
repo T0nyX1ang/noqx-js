@@ -68,25 +68,26 @@ function full_bfs(rows, cols, edges, clues = null) {
       unexplored_cells.add(`${r},${c}`); // Store as string instead of array
     }
   }
-  const clue_to_room = {};
+  const clue_to_room = new Map();
   const rc_set = new Set();
 
   for (const point of clues?.keys()) {
+    const [r, c, _, __] = extract_point(point);
     rc_set.add(`${r},${c}`);
   }
 
   function* get_neighbors(r, c) {
     /** Get the neighbors of a cell. */
-    if (edges.get(new Point(r, c, BaseDir.LEFT)) !== true) {
+    if (edges.get(new BasePoint(r, c, BaseDir.LEFT).toString()) !== true) {
       yield [r, c - 1];
     }
-    if (edges.get(new Point(r, c + 1, BaseDir.LEFT)) !== true) {
+    if (edges.get(new BasePoint(r, c + 1, BaseDir.LEFT).toString()) !== true) {
       yield [r, c + 1];
     }
-    if (edges.get(new Point(r, c, BaseDir.TOP)) !== true) {
+    if (edges.get(new BasePoint(r, c, BaseDir.TOP).toString()) !== true) {
       yield [r - 1, c];
     }
-    if (edges.get(new Point(r + 1, c, BaseDir.TOP)) !== true) {
+    if (edges.get(new BasePoint(r + 1, c, BaseDir.TOP).toString()) !== true) {
       yield [r + 1, c];
     }
   }
@@ -100,10 +101,11 @@ function full_bfs(rows, cols, edges, clues = null) {
     const queue = [start_cell]; // make a queue for BFS
     while (queue.length > 0) {
       const cell = queue.shift();
-      const [r, c] = cell.split(',').map(Number);
+      const [r, c] = cell.split(",").map(Number);
       for (const [nr, nc] of get_neighbors(r, c)) {
         const neighbor = `${nr},${nc}`;
-        if (unexplored_cells.has(neighbor)) { // Now much faster
+        if (unexplored_cells.has(neighbor)) {
+          // Now much faster
           connected_component.add(neighbor);
           unexplored_cells.delete(neighbor);
           queue.push(neighbor);
@@ -113,13 +115,13 @@ function full_bfs(rows, cols, edges, clues = null) {
         clue_cell = [r, c];
       }
     }
-    return [clue_cell, Array.from(connected_component).map(str => str.split(',').map(Number))];
+    return [clue_cell, Array.from(connected_component).map((str) => str.split(",").map(Number))];
   }
 
   while (unexplored_cells.size !== 0) {
     const start_cell = Array.from(unexplored_cells)[Math.floor(Math.random() * unexplored_cells.size)];
     const [clue, room] = single_bfs(start_cell);
-    clue_to_room[room] = clue;
+    clue_to_room.set(room, clue);
   }
 
   return clue_to_room;
