@@ -115,7 +115,8 @@ class ClingoSolver {
     const result = await clingo.run(this.program, options);
 
     if (result.Result === "ERROR") {
-      throw new Error(result.Error);
+      console.error(result.Error);
+      throw new Error("Clingo program error.");
     }
 
     if (result.Result === "UNSATISFIABLE") {
