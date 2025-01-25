@@ -111,7 +111,7 @@ class ClingoSolver {
 
   async solve() {
     // solve the problem
-    const options = "--sat-prepro --trans-ext=dynamic --eq=1 --models=11";
+    const options = "--sat-prepro --trans-ext=dynamic --eq=1 --models=10";
     const result = await clingo.run(this.program, options);
 
     if (result.Result === "ERROR") {
@@ -129,11 +129,6 @@ class ClingoSolver {
     console.info(
       `[Solver] ${puz_name} solver took ${result.Time.Total} seconds.`
     );
-
-    // const solutionData = result.Call[0].Witnesses[0];
-    // if (solutionData) {
-    //   this.storeSolutions(solutionData);
-    // }
 
     for (const solutionData of result.Call[0].Witnesses) {
       this.storeSolutions(solutionData);
