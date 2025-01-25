@@ -1,6 +1,6 @@
 # Noqx-JS
 
-Pure Javascript implementation of noqx.
+Pure Javascript implementation of [Noqx](https://github.com/T0nyX1ang/noqx).
 
 ## Conversion from Python
 

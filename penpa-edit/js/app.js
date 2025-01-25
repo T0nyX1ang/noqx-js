@@ -118,7 +118,7 @@ function make_param(id, type, name, value) {
 $(document).ready(function () {
   const urlBase = "./penpa-edit/#";
   const issueMessage =
-    "Submit an issue <a href='https://github.com/T0nyX1ang/noqx/issues/new/choose' target='_blank'>here</a> to help us improve.";
+    "Submit an issue <a href='https://github.com/T0nyX1ang/noqx-js/issues/new/choose' target='_blank'>here</a> to help us improve.";
   const exampleSelect = document.getElementById("example");
   const typeSelect = document.getElementById("type");
   const ruleButton = document.getElementById("rules");
