@@ -112,9 +112,6 @@ class ClingoSolver {
   async solve() {
     // solve the problem
     const options = "--sat-prepro --trans-ext=dynamic --eq=1 --models=11";
-
-    console.log(options);
-
     const result = await clingo.run(this.program, options);
 
     if (result.Result === "ERROR") {
