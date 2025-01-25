@@ -9,7 +9,7 @@ modules["hitori"] = {
     solver.addProgramLine(grid(puzzle.row, puzzle.col));
     solver.addProgramLine(shadeColor("black"));
     solver.addProgramLine(uniqueNum("not black", "row"));
-    solver.addProgramLine(uniqueNum("not black", "row"));
+    solver.addProgramLine(uniqueNum("not black", "col"));
     solver.addProgramLine(adjacent(4));
     solver.addProgramLine(avoidAdjacentColor());
     solver.addProgramLine(
