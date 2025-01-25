@@ -12,9 +12,7 @@ modules["hitori"] = {
     solver.add_program_line(unique_num("not black", "col"));
     solver.add_program_line(adjacent(4));
     solver.add_program_line(avoid_adjacent_color());
-    solver.add_program_line(
-      grid_color_connected("not black", 4, [puzzle.row, puzzle.col])
-    );
+    solver.add_program_line(grid_color_connected("not black", 4, [puzzle.row, puzzle.col]));
 
     for (const [point, num] of puzzle.text.entries()) {
       validate_direction(point.r, point.c, point.d);

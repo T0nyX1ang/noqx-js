@@ -38,16 +38,10 @@ function validate_type(_type, target_type) {
   if (_type === null || _type === undefined) {
     throw new Error("Type cannot be null.");
   }
-  if (
-    (typeof target_type === "number" || typeof target_type === "string") &&
-    _type !== target_type
-  ) {
+  if ((typeof target_type === "number" || typeof target_type === "string") && _type !== target_type) {
     throw new Error(`Invalid type ${_type}.`);
   }
-  if (
-    !(typeof target_type === "number" || typeof target_type === "string") &&
-    !target_type.includes(_type)
-  ) {
+  if (!(typeof target_type === "number" || typeof target_type === "string") && !target_type.includes(_type)) {
     throw new Error(`Invalid type ${_type}.`);
   }
 }
@@ -55,11 +49,7 @@ function validate_type(_type, target_type) {
 function validate_direction(r, c, d, target = BaseDir.CENTER) {
   /** Validate the direction of any element. */
   if (d !== target) {
-    throw new Error(
-      `The element in (${r}, ${c}) should be placed in the ${target
-        .valueOf()
-        .toString()}.`
-    );
+    throw new Error(`The element in (${r}, ${c}) should be placed in the ${target.valueOf().toString()}.`);
   }
 }
 
@@ -120,10 +110,7 @@ function full_bfs(rows, cols, edges, clues = null) {
   }
 
   while (unexplored_cells.size !== 0) {
-    const start_cell =
-      Array.from(unexplored_cells)[
-        Math.floor(Math.random() * unexplored_cells.size)
-      ]; // get a random start cell
+    const start_cell = Array.from(unexplored_cells)[Math.floor(Math.random() * unexplored_cells.size)]; // get a random start cell
     const [clue, room] = single_bfs(start_cell);
     clue_to_room[room] = clue;
   }

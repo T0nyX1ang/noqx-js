@@ -59,10 +59,7 @@ function clear_info() {
 
 function hook_update_display() {
   for (let i = 0; i < pu.space.length; i++) {
-    pu.space[i] = parseInt(
-      document.getElementById(`nb_space${i + 1}`).value,
-      10
-    );
+    pu.space[i] = parseInt(document.getElementById(`nb_space${i + 1}`).value, 10);
   }
 }
 
@@ -160,9 +157,7 @@ $(document).ready(function () {
   let solutionPointer = -1;
   let puzzleParameters = {};
 
-  let puzzleSearchBoxInput = document.querySelector(
-    ".choices__input.choices__input--cloned"
-  );
+  let puzzleSearchBoxInput = document.querySelector(".choices__input.choices__input--cloned");
   puzzleSearchBoxInput.id = "select2_search"; // spoof penpa+ to type words in the search box
 
   for (const [ptype, pvalue] of Object.entries(modules)) {
@@ -200,9 +195,7 @@ $(document).ready(function () {
       }
 
       choicesExample.clearStore();
-      let exampleList = [
-        { value: "", label: "Choose Example", selected: true },
-      ];
+      let exampleList = [{ value: "", label: "Choose Example", selected: true }];
       exampleList.push(
         ...modules[puzzleName].examples.map((_, i) => ({
           value: i,
@@ -221,17 +214,13 @@ $(document).ready(function () {
       solutionPointer = -1;
 
       let exampleData = modules[puzzleName].examples[exampleSelect.value];
-      puzzleContent = exampleData.url
-        ? exampleData.url
-        : `${urlBase}${exampleData.data}`;
+      puzzleContent = exampleData.url ? exampleData.url : `${urlBase}${exampleData.data}`;
       imp(puzzleContent);
 
       if (modules[puzzleName].parameters) {
         for (const [k, v] of Object.entries(modules[puzzleName].parameters)) {
-          const config =
-            modules[puzzleName].examples[exampleSelect.value].config;
-          const value =
-            config && config[k] !== undefined ? config[k] : v.default;
+          const config = modules[puzzleName].examples[exampleSelect.value].config;
+          const value = config && config[k] !== undefined ? config[k] : v.default;
           const paramInput = document.getElementById(`param_${k}`);
           if (paramInput.type === "checkbox") paramInput.checked = value;
           else paramInput.value = value;
@@ -242,11 +231,7 @@ $(document).ready(function () {
 
   ruleButton.addEventListener("click", () => {
     if (ruleButton.disabled || !puzzleName) return;
-    window.open(
-      `https://puzz.link/rules.html?${
-        puzzleName !== "yajilin_regions" ? puzzleName : "yajilin-regions"
-      }`
-    );
+    window.open(`https://puzz.link/rules.html?${puzzleName !== "yajilin_regions" ? puzzleName : "yajilin-regions"}`);
   });
 
   solveButton.addEventListener("click", async function () {
@@ -267,8 +252,7 @@ $(document).ready(function () {
       if (modules[puzzleName].parameters) {
         for (const [k, _] of Object.entries(modules[puzzleName].parameters)) {
           const paramInput = document.getElementById(`param_${k}`);
-          if (paramInput.type === "checkbox")
-            puzzleParameters[k] = paramInput.checked;
+          if (paramInput.type === "checkbox") puzzleParameters[k] = paramInput.checked;
           else puzzleParameters[k] = paramInput.value;
         }
       }
@@ -290,8 +274,7 @@ $(document).ready(function () {
           solveButton.textContent = `Solution (${solutionPointer + 1}/${
             solutionList.length === 10 ? "10+" : solutionList.length
           })`;
-          solveButton.disabled =
-            solutionList.length === 1 || solutionList.length === 0;
+          solveButton.disabled = solutionList.length === 1 || solutionList.length === 0;
         }
       }
     } else {
@@ -308,11 +291,7 @@ $(document).ready(function () {
 
   resetButton.addEventListener("click", () => {
     if (puzzleContent !== null) {
-      imp(
-        puzzleContent.includes(urlBase)
-          ? puzzleContent
-          : `${urlBase}${puzzleContent}`
-      );
+      imp(puzzleContent.includes(urlBase) ? puzzleContent : `${urlBase}${puzzleContent}`);
     } else {
       pu.reset_board();
       pu.redraw();

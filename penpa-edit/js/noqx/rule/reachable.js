@@ -9,9 +9,7 @@ function grid_color_connected(color = "black", adj_type = 4, grid_size = null) {
     initial = `${tag}(R, C) :- (R, C) = #min{ (R1, C1): grid(R1, C1), ${color}(R1, C1) }.`;
   } else {
     const [R, C] = grid_size;
-    initial = `${tag}(R, C) :- (_, R, C) = #min{ (|R1 - ${Math.floor(
-      R / 2
-    )}| + |C1 - ${Math.floor(
+    initial = `${tag}(R, C) :- (_, R, C) = #min{ (|R1 - ${Math.floor(R / 2)}| + |C1 - ${Math.floor(
       C / 2
     )}|, R1, C1): grid(R1, C1), ${color}(R1, C1) }.`;
   }
@@ -32,9 +30,7 @@ function border_color_connected(rows, cols, color = "black", adj_type = 4) {
       }
     }
   }
-  const initial = borders
-    .map(([r, c]) => `${tag}(${r}, ${c}) :- ${color}(${r}, ${c}).`)
-    .join("\n");
+  const initial = borders.map(([r, c]) => `${tag}(${r}, ${c}) :- ${color}(${r}, ${c}).`).join("\n");
   const propagation = `${tag}(R, C) :- ${tag}(R1, C1), ${color}(R, C), adj_${adj_type}(R, C, R1, C1).`;
   const constraint = `:- grid(R, C), ${color}(R, C), not ${tag}(R, C).`;
   return `${initial}\n${propagation}\n${constraint}`;
@@ -49,13 +45,7 @@ function area_color_connected(color = "black", adj_type = 4) {
   return `${initial}\n${propagation}\n${constraint}`;
 }
 
-function grid_src_color_connected(
-  src_cell,
-  include_cells = null,
-  exclude_cells = null,
-  color = "black",
-  adj_type = 4
-) {
+function grid_src_color_connected(src_cell, include_cells = null, exclude_cells = null, color = "black", adj_type = 4) {
   if (color === null) {
     validate_type(adj_type, ["edge"]);
   } else {
@@ -67,19 +57,11 @@ function grid_src_color_connected(
   let initial = `${tag}(${r}, ${c}, ${r}, ${c}).`;
 
   if (include_cells) {
-    initial +=
-      "\n" +
-      include_cells
-        .map(([incR, incC]) => `${tag}(${r}, ${c}, ${incR}, ${incC}).`)
-        .join("\n");
+    initial += "\n" + include_cells.map(([incR, incC]) => `${tag}(${r}, ${c}, ${incR}, ${incC}).`).join("\n");
   }
 
   if (exclude_cells) {
-    initial +=
-      "\n" +
-      exclude_cells
-        .map(([excR, excC]) => `not ${tag}(${r}, ${c}, ${excR}, ${excC}).`)
-        .join("\n");
+    initial += "\n" + exclude_cells.map(([excR, excC]) => `not ${tag}(${r}, ${c}, ${excR}, ${excC}).`).join("\n");
   }
 
   if (adj_type === "edge") {
@@ -117,13 +99,7 @@ function bulb_src_color_connected(src_cell, color = "black", adj_type = 4) {
   return `${initial}\n${propagation}`;
 }
 
-function count_reachable_src(
-  target,
-  src_cell,
-  main_type = "grid",
-  color = "black",
-  adj_type = 4
-) {
+function count_reachable_src(target, src_cell, main_type = "grid", color = "black", adj_type = 4) {
   if (color === null) {
     validate_type(adj_type, ["edge"]);
   } else if (main_type === "grid") {

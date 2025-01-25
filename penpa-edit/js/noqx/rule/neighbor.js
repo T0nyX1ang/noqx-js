@@ -15,54 +15,41 @@ function adjacent(_type = 4, include_self = false) {
   let rule = include_self ? `adj_${_type}(R, C, R, C) :- grid(R, C).\n` : "";
 
   if (_type === 4) {
-    rule +=
-      "adj_4(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| + |C - C1| == 1.";
+    rule += "adj_4(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| + |C - C1| == 1.";
     return rule;
   }
 
   if (_type === "x") {
-    rule +=
-      "adj_x(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| = 1, |C - C1| == 1.";
+    rule += "adj_x(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| = 1, |C - C1| == 1.";
     return rule;
   }
 
   if (_type === 8) {
-    rule +=
-      "adj_8(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| + |C - C1| == 1.\n";
-    rule +=
-      "adj_8(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| = 1, |C - C1| == 1.";
+    rule += "adj_8(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| + |C - C1| == 1.\n";
+    rule += "adj_8(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| = 1, |C - C1| == 1.";
     return rule;
   }
 
   if (_type === "edge") {
-    rule +=
-      "adj_edge(R, C, R, C + 1) :- grid(R, C), grid(R, C + 1), not edge_left(R, C + 1).\n";
-    rule +=
-      "adj_edge(R, C, R + 1, C) :- grid(R, C), grid(R + 1, C), not edge_top(R + 1, C).\n";
+    rule += "adj_edge(R, C, R, C + 1) :- grid(R, C), grid(R, C + 1), not edge_left(R, C + 1).\n";
+    rule += "adj_edge(R, C, R + 1, C) :- grid(R, C), grid(R + 1, C), not edge_top(R + 1, C).\n";
     rule += "adj_edge(R, C, R1, C1) :- adj_edge(R1, C1, R, C).";
     return rule;
   }
 
   if (_type === "loop") {
-    rule +=
-      'adj_loop(R0, C0, R, C) :- R = R0, C = C0 + 1, grid(R, C), grid(R0, C0), grid_direction(R, C, "l").\n';
-    rule +=
-      'adj_loop(R0, C0, R, C) :- R = R0 + 1, C = C0, grid(R, C), grid(R0, C0), grid_direction(R, C, "u").\n';
+    rule += 'adj_loop(R0, C0, R, C) :- R = R0, C = C0 + 1, grid(R, C), grid(R0, C0), grid_direction(R, C, "l").\n';
+    rule += 'adj_loop(R0, C0, R, C) :- R = R0 + 1, C = C0, grid(R, C), grid(R0, C0), grid_direction(R, C, "u").\n';
     rule += "adj_loop(R0, C0, R, C) :- adj_loop(R, C, R0, C0).";
     return rule;
   }
 
   if (_type === "loop_directed") {
-    rule +=
-      'adj_loop_directed(R0, C0, R, C) :- R = R0, C = C0 + 1, grid(R, C), grid(R0, C0), grid_in(R, C, "l").\n';
-    rule +=
-      'adj_loop_directed(R0, C0, R, C) :- R = R0 + 1, C = C0, grid(R, C), grid(R0, C0), grid_in(R, C, "u").\n';
-    rule +=
-      'adj_loop_directed(R0, C0, R, C) :- R = R0, C = C0 + 1, grid(R, C), grid(R0, C0), grid_out(R, C, "l").\n';
-    rule +=
-      'adj_loop_directed(R0, C0, R, C) :- R = R0 + 1, C = C0, grid(R, C), grid(R0, C0), grid_out(R, C, "u").\n';
-    rule +=
-      "adj_loop_directed(R0, C0, R, C) :- adj_loop_directed(R, C, R0, C0).";
+    rule += 'adj_loop_directed(R0, C0, R, C) :- R = R0, C = C0 + 1, grid(R, C), grid(R0, C0), grid_in(R, C, "l").\n';
+    rule += 'adj_loop_directed(R0, C0, R, C) :- R = R0 + 1, C = C0, grid(R, C), grid(R0, C0), grid_in(R, C, "u").\n';
+    rule += 'adj_loop_directed(R0, C0, R, C) :- R = R0, C = C0 + 1, grid(R, C), grid(R0, C0), grid_out(R, C, "l").\n';
+    rule += 'adj_loop_directed(R0, C0, R, C) :- R = R0 + 1, C = C0, grid(R, C), grid(R0, C0), grid_out(R, C, "u").\n';
+    rule += "adj_loop_directed(R0, C0, R, C) :- adj_loop_directed(R, C, R0, C0).";
     return rule;
   }
 

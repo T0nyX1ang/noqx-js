@@ -14,22 +14,14 @@ modules["mines"] = {
     for (const [point, num] of puzzle.text.entries()) {
       validate_direction(point.r, point.c, point.d);
       validate_type(point.pos, "normal");
-      fail_false(
-        Number.isInteger(num),
-        `Clue at (${point.r}, ${point.c}) must be an integer.`
-      );
+      fail_false(Number.isInteger(num), `Clue at (${point.r}, ${point.c}) must be an integer.`);
       solver.add_program_line(`not sun_moon__4(${point.r}, ${point.c}).`);
-      solver.add_program_line(
-        count_adjacent(parseInt(num), [point.r, point.c], "sun_moon__4", 8)
-      );
+      solver.add_program_line(count_adjacent(parseInt(num), [point.r, point.c], "sun_moon__4", 8));
     }
 
     const mine_count = puzzle.param["mine_count"];
     if (mine_count) {
-      fail_false(
-        typeof mine_count === "string" && /^\d+$/.test(mine_count),
-        "Please provide a valid mine count."
-      );
+      fail_false(typeof mine_count === "string" && /^\d+$/.test(mine_count), "Please provide a valid mine count.");
       solver.add_program_line(count(parseInt(mine_count), "sun_moon__4", "grid"));
     }
 

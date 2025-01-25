@@ -70,9 +70,7 @@ class PenpaPuzzle extends BasePuzzle {
   decode() {
     // Remove prefix and decode
     const base64_str = atob(this.content.slice(PENPA_PREFIX.length));
-    const zip_binary = Uint8Array.from(base64_str.split(""), (e) =>
-      e.charCodeAt(0)
-    );
+    const zip_binary = Uint8Array.from(base64_str.split(""), (e) => e.charCodeAt(0));
     const inflate = new Zlib.RawInflate(zip_binary);
     const plain = inflate.decompress();
     const decrypted = new TextDecoder().decode(plain);
@@ -85,31 +83,20 @@ class PenpaPuzzle extends BasePuzzle {
 
   _init_size() {
     const header = this.parts[0].split(",");
-    if (
-      header[0] === "square" ||
-      header[0] === "sudoku" ||
-      header[0] === "kakuro"
-    ) {
+    if (header[0] === "square" || header[0] === "sudoku" || header[0] === "kakuro") {
       this.cell_shape = "square";
       this.margin = JSON.parse(this.parts[1]);
-      const [top_margin, bottom_margin, left_margin, right_margin] =
-        this.margin;
+      const [top_margin, bottom_margin, left_margin, right_margin] = this.margin;
       this.row = parseInt(header[2], 10) - top_margin - bottom_margin;
       this.col = parseInt(header[1], 10) - left_margin - right_margin;
     } else {
-      throw new Error(
-        "Unsupported cell shape. Current only square shape is supported."
-      );
+      throw new Error("Unsupported cell shape. Current only square shape is supported.");
     }
-    console.log(
-      `[Puzzle] Board initialized. Size: ${this.row}x${this.col}. Margin: ${this.margin}.`
-    );
+    console.log(`[Puzzle] Board initialized. Size: ${this.row}x${this.col}. Margin: ${this.margin}.`);
   }
 
   _unpack_surface() {
-    for (const [index, color_code] of Object.entries(
-      this.problem.surface || {}
-    )) {
+    for (const [index, color_code] of Object.entries(this.problem.surface || {})) {
       const [coord] = this.index_to_coord(parseInt(index, 10));
       const point = new BasePoint(coord[0], coord[1]);
       if ([1, 3, 8].includes(color_code)) {
@@ -145,37 +132,20 @@ class PenpaPuzzle extends BasePuzzle {
       const [rc, category] = this.index_to_coord(Math.floor(idx_num / 4));
       const coord = category_to_direction(rc[0], rc[1], 0);
       const num_direction = (category - 1) * 4 + (idx_num % 4);
-      this.text.set(
-        new BasePoint(...coord, `sudoku_${num_direction}`),
-        int_or_str(num_data[0])
-      );
+      this.text.set(new BasePoint(...coord, `sudoku_${num_direction}`), int_or_str(num_data[0]));
     }
   }
 
   _unpack_symbol() {
-    for (const [index, symbol_data] of Object.entries(
-      this.problem.symbol || {}
-    )) {
+    for (const [index, symbol_data] of Object.entries(this.problem.symbol || {})) {
       const [rc, category] = this.index_to_coord(parseInt(index, 10));
       if (Array.isArray(symbol_data[0])) {
         const symbol_name = `${symbol_data[1]}__${style_convert(symbol_data[0])}`;
-        this.symbol.set(
-          new BasePoint(
-            ...category_to_direction(rc[0], rc[1], category),
-            "multiple"
-          ),
-          symbol_name
-        );
+        this.symbol.set(new BasePoint(...category_to_direction(rc[0], rc[1], category), "multiple"), symbol_name);
       } else {
         const symbol_name = `${symbol_data[1]}__${symbol_data[0]}`;
-        const pos =
-          this.puzzle_name === "nondango" && symbol_name === "circle_M__4"
-            ? "nondango_mark"
-            : "normal";
-        this.symbol.set(
-          new BasePoint(...category_to_direction(rc[0], rc[1], category), pos),
-          symbol_name
-        );
+        const pos = this.puzzle_name === "nondango" && symbol_name === "circle_M__4" ? "nondango_mark" : "normal";
+        this.symbol.set(new BasePoint(...category_to_direction(rc[0], rc[1], category), pos), symbol_name);
       }
     }
   }
@@ -185,16 +155,10 @@ class PenpaPuzzle extends BasePuzzle {
       if (!index.includes(",")) {
         const [coord, category] = this.index_to_coord(parseInt(index, 10));
         if (category === 2) {
-          this.edge.set(
-            new BasePoint(coord[0] + 1, coord[1], BaseDir.TOP),
-            false
-          );
+          this.edge.set(new BasePoint(coord[0] + 1, coord[1], BaseDir.TOP), false);
         }
         if (category === 3) {
-          this.edge.set(
-            new BasePoint(coord[0], coord[1] + 1, BaseDir.LEFT),
-            false
-          );
+          this.edge.set(new BasePoint(coord[0], coord[1] + 1, BaseDir.LEFT), false);
         }
         continue;
       }
@@ -202,31 +166,13 @@ class PenpaPuzzle extends BasePuzzle {
       const [coord_1] = this.index_to_coord(index_1);
       const [coord_2] = this.index_to_coord(index_2);
       if (coord_1[0] === coord_2[0]) {
-        this.edge.set(
-          new BasePoint(coord_2[0] + 1, coord_2[1], BaseDir.TOP),
-          true
-        );
+        this.edge.set(new BasePoint(coord_2[0] + 1, coord_2[1], BaseDir.TOP), true);
       } else if (coord_1[1] === coord_2[1]) {
-        this.edge.set(
-          new BasePoint(coord_2[0], coord_2[1] + 1, BaseDir.LEFT),
-          true
-        );
-      } else if (
-        coord_1[0] - coord_2[0] === 1 &&
-        coord_2[1] - coord_1[1] === 1
-      ) {
-        this.edge.set(
-          new BasePoint(coord_2[0], coord_2[1], BaseDir.DIAG_UP),
-          true
-        );
-      } else if (
-        coord_2[0] - coord_1[0] === 1 &&
-        coord_1[1] - coord_2[1] === 1
-      ) {
-        this.edge.set(
-          new BasePoint(coord_2[0], coord_2[1], BaseDir.DIAG_DOWN),
-          true
-        );
+        this.edge.set(new BasePoint(coord_2[0], coord_2[1] + 1, BaseDir.LEFT), true);
+      } else if (coord_1[0] - coord_2[0] === 1 && coord_2[1] - coord_1[1] === 1) {
+        this.edge.set(new BasePoint(coord_2[0], coord_2[1], BaseDir.DIAG_UP), true);
+      } else if (coord_2[0] - coord_1[0] === 1 && coord_1[1] - coord_2[1] === 1) {
+        this.edge.set(new BasePoint(coord_2[0], coord_2[1], BaseDir.DIAG_DOWN), true);
       }
     }
   }
@@ -236,59 +182,27 @@ class PenpaPuzzle extends BasePuzzle {
       if (!index.includes(",")) {
         const [coord, category] = this.index_to_coord(parseInt(index, 10));
         if (category === 2) {
-          this.line.set(
-            new BasePoint(coord[0], coord[1], BaseDir.CENTER, "d"),
-            false
-          );
-          this.line.set(
-            new BasePoint(coord[0] + 1, coord[1], BaseDir.CENTER, "u"),
-            false
-          );
+          this.line.set(new BasePoint(coord[0], coord[1], BaseDir.CENTER, "d"), false);
+          this.line.set(new BasePoint(coord[0] + 1, coord[1], BaseDir.CENTER, "u"), false);
         }
         if (category === 3) {
-          this.line.set(
-            new BasePoint(coord[0], coord[1], BaseDir.CENTER, "r"),
-            false
-          );
-          this.line.set(
-            new BasePoint(coord[0], coord[1] + 1, BaseDir.CENTER, "l"),
-            false
-          );
+          this.line.set(new BasePoint(coord[0], coord[1], BaseDir.CENTER, "r"), false);
+          this.line.set(new BasePoint(coord[0], coord[1] + 1, BaseDir.CENTER, "l"), false);
         }
         continue;
       }
       const [index_1, index_2] = index.split(",").map((i) => parseInt(i, 10));
       const [coord_1] = this.index_to_coord(index_1);
       const [coord_2, category] = this.index_to_coord(index_2);
-      const hashi_num =
-        this.puzzle_name === "hashi" ? (data === 30 ? "_2" : "_1") : "";
+      const hashi_num = this.puzzle_name === "hashi" ? (data === 30 ? "_2" : "_1") : "";
       if (category === 0) {
         const dd = coord_1[0] === coord_2[0] ? "rl" : "du";
-        this.line.set(
-          new BasePoint(
-            coord_1[0],
-            coord_1[1],
-            BaseDir.CENTER,
-            dd[0] + hashi_num
-          ),
-          true
-        );
-        this.line.set(
-          new BasePoint(
-            coord_2[0],
-            coord_2[1],
-            BaseDir.CENTER,
-            dd[1] + hashi_num
-          ),
-          true
-        );
+        this.line.set(new BasePoint(coord_1[0], coord_1[1], BaseDir.CENTER, dd[0] + hashi_num), true);
+        this.line.set(new BasePoint(coord_2[0], coord_2[1], BaseDir.CENTER, dd[1] + hashi_num), true);
       } else {
         const eqxy = coord_1[0] === coord_2[0] && coord_1[1] === coord_2[1];
         const d = category === 2 ? (eqxy ? "d" : "u") : eqxy ? "r" : "l";
-        this.line.set(
-          new BasePoint(coord_1[0], coord_1[1], BaseDir.CENTER, d + hashi_num),
-          true
-        );
+        this.line.set(new BasePoint(coord_1[0], coord_1[1], BaseDir.CENTER, d + hashi_num), true);
       }
     }
   }
@@ -296,10 +210,7 @@ class PenpaPuzzle extends BasePuzzle {
   _unpack_board() {
     // Must unpack solution board first, then edit board
     for (const p of [4, 3]) {
-      const json_str = PENPA_ABBREVIATIONS.reduce(
-        (s, abbr) => s.replaceAll(abbr[1], abbr[0]),
-        this.parts[p]
-      );
+      const json_str = PENPA_ABBREVIATIONS.reduce((s, abbr) => s.replaceAll(abbr[1], abbr[0]), this.parts[p]);
       this.problem = JSON.parse(json_str);
       this._unpack_surface();
       this._unpack_text();
@@ -324,17 +235,11 @@ class PenpaPuzzle extends BasePuzzle {
 
   encode() {
     // Rebuild solution
-    const solution_str = PENPA_ABBREVIATIONS.reduce(
-      (s, abbr) => s.replaceAll(abbr[1], abbr[0]),
-      this.parts[4]
-    );
+    const solution_str = PENPA_ABBREVIATIONS.reduce((s, abbr) => s.replaceAll(abbr[1], abbr[0]), this.parts[4]);
     this.solution = JSON.parse(solution_str);
     this._pack_board();
     const encoded = JSON.stringify(this.solution);
-    this.parts[4] = PENPA_ABBREVIATIONS.reduce(
-      (s, abbr) => s.replaceAll(abbr[0], abbr[1]),
-      encoded
-    );
+    this.parts[4] = PENPA_ABBREVIATIONS.reduce((s, abbr) => s.replaceAll(abbr[0], abbr[1]), encoded);
 
     const puz_data = this.parts.join("\n");
     const u8text = new TextEncoder().encode(puz_data);
@@ -428,9 +333,7 @@ class PenpaPuzzle extends BasePuzzle {
       }
       this.solution.line = this.solution.line || {};
       if (this.puzzle_name === "hashi") {
-        this.solution.line[`${index_1},${index_2}`] = point.pos.endsWith("_1")
-          ? 3
-          : 30;
+        this.solution.line[`${index_1},${index_2}`] = point.pos.endsWith("_1") ? 3 : 30;
       } else if (!this.problem.line[`${index_1},${index_2}`]) {
         this.solution.line[`${index_1},${index_2}`] = 3;
       }
@@ -450,10 +353,6 @@ class PenpaPuzzle extends BasePuzzle {
     const [top_margin, bottom_margin, left_margin, right_margin] = this.margin;
     const real_row = this.row + top_margin + bottom_margin + 4;
     const real_col = this.col + left_margin + right_margin + 4;
-    return (
-      category * real_row * real_col +
-      (coord[0] + 2 + top_margin) * real_col +
-      (coord[1] + 2 + left_margin)
-    );
+    return category * real_row * real_col + (coord[0] + 2 + top_margin) * real_col + (coord[1] + 2 + left_margin);
   }
 }

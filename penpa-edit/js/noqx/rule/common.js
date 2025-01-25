@@ -15,9 +15,7 @@ function defined(item, size = 2) {
 function grid(rows, cols, with_holes = false) {
   /** Generates facts for a grid. This fact can be extended with holes. */
   if (with_holes) {
-    return `grid(R, C) :- R = 0..${rows - 1}, C = 0..${
-      cols - 1
-    }, not hole(R, C).`;
+    return `grid(R, C) :- R = 0..${rows - 1}, C = 0..${cols - 1}, not hole(R, C).`;
   }
   return `grid(0..${rows - 1}, 0..${cols - 1}).`;
 }
