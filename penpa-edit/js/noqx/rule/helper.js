@@ -1,78 +1,87 @@
 /** Helper functions for generation solvers and rules. */
 
-function tagEncode(name, ...data) {
+function tag_encode(name, ...data) {
   /** Encode a valid tag predicate without spaces or hyphens. */
-  const tagData = [name];
+  const tag_data = [name];
   for (const d of data) {
     // recommended data sequence: *_type, src_r, src_c, color
     if (d !== null && d !== undefined) {
-      tagData.push(String(d).replace("-", "_").replace(" ", "_"));
+      tag_data.push(String(d).replace("-", "_").replace(" ", "_"));
     }
   }
-  return tagData.join("_");
+  return tag_data.join("_");
 }
 
-function reverseOp(op) {
+function reverse_op(op) {
   /** Return the reverse of the given operator. */
-  const opRevDict = { eq: "!=", ge: "<", gt: "<=", le: ">", lt: ">=", ne: "=" };
-  return opRevDict[op];
+  const op_rev_dict = {
+    eq: "!=",
+    ge: "<",
+    gt: "<=",
+    le: ">",
+    lt: ">=",
+    ne: "=",
+  };
+  return op_rev_dict[op];
 }
 
-function targetEncode(target) {
+function target_encode(target) {
   /** Encode a target number for comparison. */
   if (typeof target === "number") {
     return ["!=", target];
   }
-  return [reverseOp(target[0]), target[1]];
+  return [reverse_op(target[0]), target[1]];
 }
 
-function validateType(_type, targetType) {
+function validate_type(_type, target_type) {
   /** Validate any matching type. */
   if (_type === null || _type === undefined) {
-    throw new Error("Type cannot be 'null'.");
+    throw new Error("Type cannot be null.");
   }
   if (
-    (typeof targetType === "number" || typeof targetType === "string") &&
-    _type !== targetType
+    (typeof target_type === "number" || typeof target_type === "string") &&
+    _type !== target_type
   ) {
-    throw new Error(`Invalid type '${_type}'.`);
+    throw new Error(`Invalid type ${_type}.`);
   }
   if (
-    !(typeof targetType === "number" || typeof targetType === "string") &&
-    !targetType.includes(_type)
+    !(typeof target_type === "number" || typeof target_type === "string") &&
+    !target_type.includes(_type)
   ) {
-    throw new Error(`Invalid type '${_type}'.`);
+    throw new Error(`Invalid type ${_type}.`);
   }
 }
 
-function validateDirection(r, c, d, target = BaseDir.CENTER) {
+function validate_direction(r, c, d, target = BaseDir.CENTER) {
   /** Validate the direction of any element. */
   if (d !== target) {
     throw new Error(
-      `The element in (${r}, ${c}) should be placed in the ${target.value}.`
+      `The element in (${r}, ${c}) should be placed in the ${target
+        .valueOf()
+        .toString()}.`
     );
   }
 }
 
-function failFalse(express, msg) {
+function fail_false(express, msg) {
   /** Raise error if the expression is false. Works like an assertion in the background. */
   if (!express) {
     throw new Error(msg);
   }
 }
 
-function fullBFS(rows, cols, edges, clues = null) {
+function full_bfs(rows, cols, edges, clues = null) {
   /** Generate a dict of rooms with their unique clue. */
-  const unexploredCells = new Set();
+  const unexplored_cells = new Set();
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
-      unexploredCells.add([r, c]);
+      unexplored_cells.add([r, c]);
     }
   }
-  const clueToRoom = {};
-  const rcSet = clues ? new Set(clues.map(([r, c]) => [r, c])) : new Set();
+  const clue_to_room = {};
+  const rc_set = clues ? new Set(clues.map(([r, c]) => [r, c])) : new Set();
 
-  function* getNeighbors(r, c) {
+  function* get_neighbors(r, c) {
     /** Get the neighbors of a cell. */
     if (edges.get(new Point(r, c, BaseDir.LEFT)) !== true) {
       yield [r, c - 1];
@@ -88,36 +97,36 @@ function fullBFS(rows, cols, edges, clues = null) {
     }
   }
 
-  function singleBFS(startCell) {
-    let clueCell = null;
-    const connectedComponent = new Set([startCell]);
-    unexploredCells.delete(startCell);
+  function single_bfs(start_cell) {
+    let clue_cell = null;
+    const connected_component = new Set([start_cell]);
+    unexplored_cells.delete(start_cell);
 
-    const queue = [startCell]; // make a queue for BFS
+    const queue = [start_cell]; // make a queue for BFS
     while (queue.length > 0) {
       const [r, c] = queue.shift();
-      for (const neighbor of getNeighbors(r, c)) {
-        if (unexploredCells.has(neighbor)) {
-          connectedComponent.add(neighbor);
-          unexploredCells.delete(neighbor);
+      for (const neighbor of get_neighbors(r, c)) {
+        if (unexplored_cells.has(neighbor)) {
+          connected_component.add(neighbor);
+          unexplored_cells.delete(neighbor);
           queue.push(neighbor);
         }
       }
-      if (clues && rcSet.has([r, c])) {
-        clueCell = [r, c];
+      if (clues && rc_set.has([r, c])) {
+        clue_cell = [r, c];
       }
     }
-    return [clueCell, Array.from(connectedComponent)];
+    return [clue_cell, Array.from(connected_component)];
   }
 
-  while (unexploredCells.size !== 0) {
-    const startCell =
-      Array.from(unexploredCells)[
-        Math.floor(Math.random() * unexploredCells.size)
+  while (unexplored_cells.size !== 0) {
+    const start_cell =
+      Array.from(unexplored_cells)[
+        Math.floor(Math.random() * unexplored_cells.size)
       ]; // get a random start cell
-    const [clue, room] = singleBFS(startCell);
-    clueToRoom[room] = clue;
+    const [clue, room] = single_bfs(start_cell);
+    clue_to_room[room] = clue;
   }
 
-  return clueToRoom;
+  return clue_to_room;
 }

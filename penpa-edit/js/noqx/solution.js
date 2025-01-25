@@ -12,12 +12,12 @@ class ClingoSolver {
     );
   }
 
-  registerPuzzle(puzzle) {
+  register_puzzle(puzzle) {
     this.puzzle = puzzle;
     console.log("[Solver] Puzzle registered.");
   }
 
-  storeSolutions(solutionData) {
+  storeSolutions(solution_data) {
     if (!this.puzzle) throw new Error("Puzzle not registered.");
     const solution = new PenpaPuzzle(
       this.puzzle.puzzle_name,
@@ -27,7 +27,7 @@ class ClingoSolver {
     solution.decode();
     solution.clear();
 
-    for (const item of solutionData.Value) {
+    for (const item of solution_data.Value) {
       const parts = item.replace("(", " ").replace(")", " ").split(" ");
       if (parts.length < 2) continue;
       const [_type, _data] = parts;
@@ -98,7 +98,7 @@ class ClingoSolver {
     this.solutions.push(solution);
   }
 
-  addProgramLine(line) {
+  add_program_line(line) {
     if (line) this.program += line + "\n";
   }
 
@@ -130,8 +130,8 @@ class ClingoSolver {
       `[Solver] ${puz_name} solver took ${result.Time.Total} seconds.`
     );
 
-    for (const solutionData of result.Call[0].Witnesses) {
-      this.storeSolutions(solutionData);
+    for (const solution_data of result.Call[0].Witnesses) {
+      this.storeSolutions(solution_data);
     }
   }
 }

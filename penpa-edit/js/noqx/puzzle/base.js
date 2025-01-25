@@ -51,10 +51,10 @@ class BasePuzzle {
   }
 
   decode() {
-    throw new Error("Not implemented");
+    throw new Error("Not implemented.");
   }
 
   encode() {
-    throw new Error("Not implemented");
+    throw new Error("Not implemented.");
   }
 }

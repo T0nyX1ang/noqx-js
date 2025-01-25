@@ -2,16 +2,16 @@
 
 const modules = {};
 
-async function runSolver(puzzleName, puzzleContent, param) {
+async function runSolver(puzzle_name, puzzle_content, param) {
   /**
    * Run the solver.
    */
-  const module = modules[puzzleName];
+  const module = modules[puzzle_name];
 
-  const puzzle = new PenpaPuzzle(puzzleName, puzzleContent, param);
+  const puzzle = new PenpaPuzzle(puzzle_name, puzzle_content, param);
   puzzle.decode();
-  const solutionData = await module.solve(puzzle);
-  const solutions = solutionData.map((sol) => sol.encode());
+  const solution_data = await module.solve(puzzle);
+  const solutions = solution_data.map((sol) => sol.encode());
 
   return solutions;
 }

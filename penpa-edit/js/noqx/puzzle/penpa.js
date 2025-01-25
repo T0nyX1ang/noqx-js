@@ -36,18 +36,18 @@ const PENPA_ABBREVIATIONS = [
   ["null", "zO"],
 ];
 
-function intOrStr(data) {
+function int_or_str(data) {
   // Convert the string to integer if possible.
   if (typeof data === "number") return data;
   return /^\d+$/.test(data) ? parseInt(data, 10) : data;
 }
 
-function styleConvert(style) {
+function style_convert(style) {
   // Convert the style to binary format.
   return parseInt(style.join(""), 2);
 }
 
-function categoryToDirection(r, c, category) {
+function category_to_direction(r, c, category) {
   // Convert the coordination with category to standard direction.
   if (category === 0) return [r, c, BaseDir.CENTER];
   if (category === 1) return [r + 1, c + 1, BaseDir.TOP_LEFT];
@@ -69,11 +69,11 @@ class PenpaPuzzle extends BasePuzzle {
 
   decode() {
     // Remove prefix and decode
-    const base64Str = atob(this.content.slice(PENPA_PREFIX.length));
-    const zipBinary = Uint8Array.from(base64Str.split(""), (e) =>
+    const base64_str = atob(this.content.slice(PENPA_PREFIX.length));
+    const zip_binary = Uint8Array.from(base64_str.split(""), (e) =>
       e.charCodeAt(0)
     );
-    const inflate = new Zlib.RawInflate(zipBinary);
+    const inflate = new Zlib.RawInflate(zip_binary);
     const plain = inflate.decompress();
     const decrypted = new TextDecoder().decode(plain);
 
@@ -127,53 +127,53 @@ class PenpaPuzzle extends BasePuzzle {
   _unpack_text() {
     for (const [index, num_data] of Object.entries(this.problem.number || {})) {
       const [rc, category] = this.index_to_coord(parseInt(index, 10));
-      const coord = categoryToDirection(rc[0], rc[1], category);
+      const coord = category_to_direction(rc[0], rc[1], category);
       if (num_data[2] === "4") {
         let i = 0;
-        for (const data of num_data[0].split("").map(intOrStr)) {
+        for (const data of num_data[0].split("").map(int_or_str)) {
           this.text.set(new BasePoint(...coord, `tapa_${i++}`), data);
         }
       } else if (num_data[2] !== "7") {
-        this.text.set(new BasePoint(...coord, "normal"), intOrStr(num_data[0]));
+        this.text.set(new BasePoint(...coord, "normal"), int_or_str(num_data[0]));
       }
     }
   }
 
   _unpack_sudoku() {
     for (const [index, num_data] of Object.entries(this.problem.sudoku || {})) {
-      const idxNum = parseInt(index, 10);
-      const [rc, category] = this.index_to_coord(Math.floor(idxNum / 4));
-      const coord = categoryToDirection(rc[0], rc[1], 0);
-      const num_direction = (category - 1) * 4 + (idxNum % 4);
+      const idx_num = parseInt(index, 10);
+      const [rc, category] = this.index_to_coord(Math.floor(idx_num / 4));
+      const coord = category_to_direction(rc[0], rc[1], 0);
+      const num_direction = (category - 1) * 4 + (idx_num % 4);
       this.text.set(
         new BasePoint(...coord, `sudoku_${num_direction}`),
-        intOrStr(num_data[0])
+        int_or_str(num_data[0])
       );
     }
   }
 
   _unpack_symbol() {
-    for (const [index, symbolData] of Object.entries(
+    for (const [index, symbol_data] of Object.entries(
       this.problem.symbol || {}
     )) {
       const [rc, category] = this.index_to_coord(parseInt(index, 10));
-      if (Array.isArray(symbolData[0])) {
-        const symbol_name = `${symbolData[1]}__${styleConvert(symbolData[0])}`;
+      if (Array.isArray(symbol_data[0])) {
+        const symbol_name = `${symbol_data[1]}__${style_convert(symbol_data[0])}`;
         this.symbol.set(
           new BasePoint(
-            ...categoryToDirection(rc[0], rc[1], category),
+            ...category_to_direction(rc[0], rc[1], category),
             "multiple"
           ),
           symbol_name
         );
       } else {
-        const symbol_name = `${symbolData[1]}__${symbolData[0]}`;
+        const symbol_name = `${symbol_data[1]}__${symbol_data[0]}`;
         const pos =
           this.puzzle_name === "nondango" && symbol_name === "circle_M__4"
             ? "nondango_mark"
             : "normal";
         this.symbol.set(
-          new BasePoint(...categoryToDirection(rc[0], rc[1], category), pos),
+          new BasePoint(...category_to_direction(rc[0], rc[1], category), pos),
           symbol_name
         );
       }
@@ -296,11 +296,11 @@ class PenpaPuzzle extends BasePuzzle {
   _unpack_board() {
     // Must unpack solution board first, then edit board
     for (const p of [4, 3]) {
-      const jsonStr = PENPA_ABBREVIATIONS.reduce(
+      const json_str = PENPA_ABBREVIATIONS.reduce(
         (s, abbr) => s.replaceAll(abbr[1], abbr[0]),
         this.parts[p]
       );
-      this.problem = JSON.parse(jsonStr);
+      this.problem = JSON.parse(json_str);
       this._unpack_surface();
       this._unpack_text();
       this._unpack_sudoku();
@@ -324,11 +324,11 @@ class PenpaPuzzle extends BasePuzzle {
 
   encode() {
     // Rebuild solution
-    const solutionStr = PENPA_ABBREVIATIONS.reduce(
+    const solution_str = PENPA_ABBREVIATIONS.reduce(
       (s, abbr) => s.replaceAll(abbr[1], abbr[0]),
       this.parts[4]
     );
-    this.solution = JSON.parse(solutionStr);
+    this.solution = JSON.parse(solution_str);
     this._pack_board();
     const encoded = JSON.stringify(this.solution);
     this.parts[4] = PENPA_ABBREVIATIONS.reduce(
@@ -336,8 +336,8 @@ class PenpaPuzzle extends BasePuzzle {
       encoded
     );
 
-    const puzdata = this.parts.join("\n");
-    const u8text = new TextEncoder().encode(puzdata);
+    const puz_data = this.parts.join("\n");
+    const u8text = new TextEncoder().encode(puz_data);
     var deflate = new Zlib.RawDeflate(u8text);
     var compressed = deflate.compress();
     var char8 = Array.from(compressed, (e) => String.fromCharCode(e)).join("");

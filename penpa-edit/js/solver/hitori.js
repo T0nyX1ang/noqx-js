@@ -5,34 +5,34 @@ modules["hitori"] = {
   category: "shade",
   solve: async function solve(puzzle) {
     solver.reset();
-    solver.registerPuzzle(puzzle);
-    solver.addProgramLine(grid(puzzle.row, puzzle.col));
-    solver.addProgramLine(shadeColor("black"));
-    solver.addProgramLine(uniqueNum("not black", "row"));
-    solver.addProgramLine(uniqueNum("not black", "col"));
-    solver.addProgramLine(adjacent(4));
-    solver.addProgramLine(avoidAdjacentColor());
-    solver.addProgramLine(
-      gridColorConnected("not black", 4, [puzzle.row, puzzle.col])
+    solver.register_puzzle(puzzle);
+    solver.add_program_line(grid(puzzle.row, puzzle.col));
+    solver.add_program_line(shade_c("black"));
+    solver.add_program_line(unique_num("not black", "row"));
+    solver.add_program_line(unique_num("not black", "col"));
+    solver.add_program_line(adjacent(4));
+    solver.add_program_line(avoid_adjacent_color());
+    solver.add_program_line(
+      grid_color_connected("not black", 4, [puzzle.row, puzzle.col])
     );
 
     for (const [point, num] of puzzle.text.entries()) {
-      validateDirection(point.r, point.c, point.d);
-      validateType(point.pos, "normal");
+      validate_direction(point.r, point.c, point.d);
+      validate_type(point.pos, "normal");
       if (typeof num === "number") {
-        solver.addProgramLine(`number(${point.r}, ${point.c}, ${num}).`);
+        solver.add_program_line(`number(${point.r}, ${point.c}, ${num}).`);
       }
     }
 
     for (const [point, color] of puzzle.surface.entries()) {
       if (BaseColor.DARK.includes(color)) {
-        solver.addProgramLine(`black(${point.r}, ${point.c}).`);
+        solver.add_program_line(`black(${point.r}, ${point.c}).`);
       } else {
-        solver.addProgramLine(`not black(${point.r}, ${point.c}).`);
+        solver.add_program_line(`not black(${point.r}, ${point.c}).`);
       }
     }
 
-    solver.addProgramLine(display());
+    solver.add_program_line(display());
     await solver.solve();
 
     return solver.solutions;

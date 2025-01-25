@@ -12,9 +12,9 @@ function defined(item, size = 2) {
   return `#defined ${item}/${size}.`;
 }
 
-function grid(rows, cols, withHoles = false) {
+function grid(rows, cols, with_holes = false) {
   /** Generates facts for a grid. This fact can be extended with holes. */
-  if (withHoles) {
+  if (with_holes) {
     return `grid(R, C) :- R = 0..${rows - 1}, C = 0..${
       cols - 1
     }, not hole(R, C).`;
@@ -22,12 +22,12 @@ function grid(rows, cols, withHoles = false) {
   return `grid(0..${rows - 1}, 0..${cols - 1}).`;
 }
 
-function area(_id, srcCells) {
+function area(_id, src_cells) {
   /** Generates facts for areas. */
-  return srcCells.map(([r, c]) => `area(${_id}, ${r}, ${c}).`).join("\n");
+  return src_cells.map(([r, c]) => `area(${_id}, ${r}, ${c}).`).join("\n");
 }
 
-function shadeColor(color = "black") {
+function shade_c(color = "black") {
   /**
    * Generate a rule that a cell is either {color} or not {color}.
    * A grid fact should be defined first.
@@ -35,7 +35,7 @@ function shadeColor(color = "black") {
   return `{ ${color}(R, C) } :- grid(R, C).`;
 }
 
-function shadeColors(colors) {
+function shade_cc(colors) {
   /**
    * Generates a rule that enforces several different {color} cells.
    * A grid fact should be defined first.
@@ -43,7 +43,7 @@ function shadeColors(colors) {
   return `{ ${colors.map((c) => `${c}(R, C)`).join("; ")} } = 1 :- grid(R, C).`;
 }
 
-function invertColor(color = "black", invert = "white") {
+function invert_c(color = "black", invert = "white") {
   /** Generates a rule for inverting colors. */
   return `${invert}(R, C) :- grid(R, C), not ${color}(R, C).`;
 }
@@ -66,11 +66,11 @@ function edge(rows, cols) {
 
 function direction(directions) {
   /** Generates facts for directions. */
-  const formatD = Array.isArray(directions) ? directions : [directions];
-  return `direction(${formatD.map((d) => `"${d}"`).join("; ")}).`;
+  const formatted_dirs = Array.isArray(directions) ? directions : [directions];
+  return `direction(${formatted_dirs.map((d) => `"${d}"`).join("; ")}).`;
 }
 
-function fillPath(color = "black", directed = false) {
+function fill_path(color = "black", directed = false) {
   /**
    * Generate a rule that a cell is on a path.
    * A grid fact and a direction fact should be defined first.
@@ -83,16 +83,16 @@ function fillPath(color = "black", directed = false) {
   return `{ grid_direction(R, C, D): direction(D) } :- grid(R, C), ${color}(R, C).`;
 }
 
-function fillNum(_range, _type = "grid", _id = "A", color = null) {
+function fill_num(_range, _type = "grid", _id = "A", color = null) {
   /**
    * Generate a rule that a cell numbered within {_range}.
    * {_range} should have the format "low..high", or "x;y;z" for a list of numbers.
    * A grid fact or an area fact should be defined first.
    */
-  const colorPart = color ? `; ${color}(R, C)` : "";
+  const color_part = color ? `; ${color}(R, C)` : "";
   _range = Array.from(new Set(_range)).sort((a, b) => a - b); // canonicize the range
   let i = 0,
-    rangeSeq = [];
+    range_seq = [];
 
   while (i < _range.length) {
     let start = i;
@@ -101,27 +101,27 @@ function fillNum(_range, _type = "grid", _id = "A", color = null) {
     }
     let end = i;
     if (start < end) {
-      rangeSeq.push(`${_range[start]}..${_range[end]}`);
+      range_seq.push(`${_range[start]}..${_range[end]}`);
     } else {
-      rangeSeq.push(`${_range[start]}`);
+      range_seq.push(`${_range[start]}`);
     }
     i++;
   }
 
-  const rangeStr = rangeSeq.join(";");
+  const range_str = range_seq.join(";");
 
   if (_type === "grid") {
-    return `{ number(R, C, (${rangeStr}))${colorPart} } = 1 :- grid(R, C).`;
+    return `{ number(R, C, (${range_str}))${color_part} } = 1 :- grid(R, C).`;
   }
 
   if (_type === "area") {
-    return `{ number(R, C, (${rangeStr}))${colorPart} } = 1 :- area(${_id}, R, C).`;
+    return `{ number(R, C, (${range_str}))${color_part} } = 1 :- area(${_id}, R, C).`;
   }
 
   throw new Error("Invalid type, must be one of 'grid', 'area'.");
 }
 
-function uniqueNum(color = "black", _type = "row") {
+function unique_num(color = "black", _type = "row") {
   /**
    * Generates a constraint for unique {color} numbered cells in a(an) row / column / area.
    * {color} can be set to "grid" for wildcard colors.
@@ -147,7 +147,7 @@ function count(target, color = "black", _type = "grid", _id = null) {
    * Generates a constraint for counting the number of {color} cells in a grid / row / column / area.
    * A grid fact should be defined first.
    */
-  const [rop, num] = targetEncode(target);
+  const [rop, num] = target_encode(target);
 
   if (_id === null) {
     _id = _type === "row" ? "R" : _type === "col" ? "C" : null;
