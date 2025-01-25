@@ -92,7 +92,7 @@ class PenpaPuzzle extends BasePuzzle {
     } else {
       throw new Error("Unsupported cell shape. Current only square shape is supported.");
     }
-    console.log(`[Puzzle] Board initialized. Size: ${this.row}x${this.col}. Margin: ${this.margin}.`);
+    // console.log(`[Puzzle] Board initialized. Size: ${this.row}x${this.col}. Margin: ${this.margin}.`);
   }
 
   _unpack_surface() {
@@ -219,7 +219,7 @@ class PenpaPuzzle extends BasePuzzle {
       this._unpack_edge();
       this._unpack_line();
     }
-    console.log("[Puzzle] Board unpacked.");
+    // console.log("[Puzzle] Board unpacked.");
   }
 
   index_to_coord(index) {
@@ -346,7 +346,7 @@ class PenpaPuzzle extends BasePuzzle {
     this._pack_symbol();
     this._pack_edge();
     this._pack_line();
-    console.log("[Solution] Board packed.");
+    // console.log("[Solution] Board packed.");
   }
 
   coord_to_index(coord, category = 0) {

@@ -57,11 +57,11 @@ function grid_src_color_connected(src_cell, include_cells = null, exclude_cells 
   let initial = `${tag}(${r}, ${c}, ${r}, ${c}).`;
 
   if (include_cells) {
-    initial += "\n" + include_cells.map(([incR, incC]) => `${tag}(${r}, ${c}, ${incR}, ${incC}).`).join("\n");
+    initial += "\n" + include_cells.map(([inc_r, inc_c]) => `${tag}(${r}, ${c}, ${inc_r}, ${inc_c}).`).join("\n");
   }
 
   if (exclude_cells) {
-    initial += "\n" + exclude_cells.map(([excR, excC]) => `not ${tag}(${r}, ${c}, ${excR}, ${excC}).`).join("\n");
+    initial += "\n" + exclude_cells.map(([exc_r, exc_c]) => `not ${tag}(${r}, ${c}, ${exc_r}, ${exc_c}).`).join("\n");
   }
 
   if (adj_type === "edge") {

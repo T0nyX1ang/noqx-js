@@ -12,7 +12,7 @@ class ClingoSolver {
 
   register_puzzle(puzzle) {
     this.puzzle = puzzle;
-    console.log("[Solver] Puzzle registered.");
+    // console.log("[Solver] Puzzle registered.");
   }
 
   storeSolutions(solution_data) {

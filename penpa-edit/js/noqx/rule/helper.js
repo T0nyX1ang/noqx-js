@@ -49,7 +49,7 @@ function validate_type(_type, target_type) {
 function validate_direction(r, c, d, target = BaseDir.CENTER) {
   /** Validate the direction of any element. */
   if (d !== target) {
-    throw new Error(`The element in (${r}, ${c}) should be placed in the ${target.valueOf().toString()}.`);
+    throw new Error(`The element in (${r}, ${c}) should be placed in the ${target.description}.`);
   }
 }
 
