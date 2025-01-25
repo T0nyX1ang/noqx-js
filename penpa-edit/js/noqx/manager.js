@@ -13,28 +13,5 @@ async function runSolver(puzzleName, puzzleContent, param) {
   const solutionData = await module.solve(puzzle);
   const solutions = solutionData.map((sol) => sol.encode());
 
-  // const start = performance.now();
-  // const stop = performance.now();
-  // if (stop - start >= Config.time_limit) {
-  //   console.warn(
-  //     `[Solver] ${puzzleName.replace(/\b\w/g, (l) =>
-  //       l.toUpperCase()
-  //     )} puzzle timed out.`
-  //   );
-  //   throw new Error("Time limit exceeded.");
-  // }
-
-  // console.info(
-  //   `[Solver] ${puzzleName.replace(/\b\w/g, (l) =>
-  //     l.toUpperCase()
-  //   )} puzzle solved.`
-  // );
-
-  // console.info(
-  //   `[Stats] ${puzzleName.replace(/\b\w/g, (l) =>
-  //     l.toUpperCase()
-  //   )} solver took ${stop - start} milliseconds.`
-  // );
-
-  return solutions; // return the first solution
+  return solutions;
 }

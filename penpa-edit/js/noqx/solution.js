@@ -1,12 +1,5 @@
 /* Generate solutions for the given problem. */
 
-// class Config {
-//     /* Configuration for the solver. */;
-//     time_limit = 30;
-//     max_solutions_to_find = 10;
-//     parallel_threads = 1;
-// }
-
 class ClingoSolver {
   constructor() {
     // initialize the clingo solver
@@ -26,7 +19,12 @@ class ClingoSolver {
 
   storeSolutions(solutionData) {
     if (!this.puzzle) throw new Error("Puzzle not registered.");
-    const solution = this.puzzle;
+    const solution = new PenpaPuzzle(
+      this.puzzle.puzzle_name,
+      this.puzzle.content,
+      this.puzzle.param
+    );
+    solution.decode();
     solution.clear();
 
     for (const item of solutionData.Value) {
@@ -113,9 +111,13 @@ class ClingoSolver {
 
   async solve() {
     // solve the problem
-    const result = await clingo.run(this.program);
+    const options = "--sat-prepro --trans-ext=dynamic --eq=1 --models=11";
 
-    if (result.Result === "Error") {
+    console.log(options);
+
+    const result = await clingo.run(this.program, options);
+
+    if (result.Result === "ERROR") {
       throw new Error(result.Error);
     }
 
@@ -125,13 +127,17 @@ class ClingoSolver {
 
     const puz_name = modules[this.puzzle.puzzle_name].name;
 
-    console.info(`[Solver] Puzzle ${puz_name} solved.`);
+    console.info(`[Solver] ${puz_name} puzzle solved.`);
     console.info(
-      `[Solver] ${puz_name} Solver took ${result.Time.Total} seconds.`
+      `[Solver] ${puz_name} solver took ${result.Time.Total} seconds.`
     );
 
-    const solutionData = result.Call[0].Witnesses[0];
-    if (solutionData) {
+    // const solutionData = result.Call[0].Witnesses[0];
+    // if (solutionData) {
+    //   this.storeSolutions(solutionData);
+    // }
+
+    for (const solutionData of result.Call[0].Witnesses) {
       this.storeSolutions(solutionData);
     }
   }
