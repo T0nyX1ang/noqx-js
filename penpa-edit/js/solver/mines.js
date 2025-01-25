@@ -12,11 +12,12 @@ modules["mines"] = {
     solver.add_program_line(adjacent(8));
 
     for (const [point, num] of puzzle.text.entries()) {
-      validate_direction(point.r, point.c, point.d);
-      validate_type(point.pos, "normal");
-      fail_false(Number.isInteger(num), `Clue at (${point.r}, ${point.c}) must be an integer.`);
-      solver.add_program_line(`not sun_moon__4(${point.r}, ${point.c}).`);
-      solver.add_program_line(count_adjacent(parseInt(num), [point.r, point.c], "sun_moon__4", 8));
+      const [r, c, d, pos] = extract_point(point);
+      validate_direction(r, c, d);
+      validate_type(pos, "normal");
+      fail_false(Number.isInteger(num), `Clue at (${r}, ${c}) must be an integer.`);
+      solver.add_program_line(`not sun_moon__4(${r}, ${c}).`);
+      solver.add_program_line(count_adjacent(parseInt(num), [r, c], "sun_moon__4", 8));
     }
 
     const mine_count = puzzle.param["mine_count"];
@@ -26,9 +27,10 @@ modules["mines"] = {
     }
 
     for (const [point, symbol_name] of puzzle.symbol.entries()) {
-      validate_direction(point.r, point.c, point.d);
+      const [r, c, d, _] = extract_point(point);
+      validate_direction(r, c, d);
       validate_type(symbol_name, "sun_moon__4");
-      solver.add_program_line(`sun_moon__4(${point.r}, ${point.c}).`);
+      solver.add_program_line(`sun_moon__4(${r}, ${c}).`);
     }
 
     solver.add_program_line(display("sun_moon__4"));

@@ -32,29 +32,29 @@ class ClingoSolver {
 
       if (_type.startsWith("edge_")) {
         for (const d of BaseDir) {
-          if (_type === `edge_${d.value}`) {
-            solution.edge.set(new BasePoint(r, c, d), true);
+          if (_type === `edge_${d.description}`) {
+            solution.edge.set(new BasePoint(r, c, d).toString(), true);
           }
         }
       } else if (_type.startsWith("grid_")) {
         const grid_direction = String(data[2]).replace('"', "");
         if (this.puzzle.puzzle_name === "hashi") {
-          solution.line.set(new BasePoint(r, c, BaseDir.CENTER, `${grid_direction}_${data[3]}`), true);
+          solution.line.set(new BasePoint(r, c, BaseDir.CENTER, `${grid_direction}_${data[3]}`).toString(), true);
         } else {
-          solution.line.set(new BasePoint(r, c, BaseDir.CENTER, grid_direction), true);
+          solution.line.set(new BasePoint(r, c, BaseDir.CENTER, grid_direction).toString(), true);
         }
       } else if (_type.startsWith("number")) {
         if (this.puzzle.puzzle_name === "easyasabc") {
           // convert penpa number to letter
           solution.text.set(
-            new BasePoint(r, c, BaseDir.CENTER, "normal"),
+            new BasePoint(r, c, BaseDir.CENTER, "normal").toString(),
             this.puzzle.param["letters"][parseInt(data[2], 10) - 1]
           );
         } else {
-          solution.text.set(new BasePoint(r, c, BaseDir.CENTER, "normal"), parseInt(data[2], 10));
+          solution.text.set(new BasePoint(r, c, BaseDir.CENTER, "normal").toString(), parseInt(data[2], 10));
         }
       } else if (_type.startsWith("content")) {
-        solution.text.set(new BasePoint(r, c, BaseDir.CENTER), String(data[2]).replace('"', ""));
+        solution.text.set(new BasePoint(r, c, BaseDir.CENTER).toString(), String(data[2]).replace('"', ""));
       } else if (_type === "triangle") {
         const shaka_dict = {
           '"ul"': "1",
@@ -62,16 +62,16 @@ class ClingoSolver {
           '"dl"': "2",
           '"dr"': "3",
         };
-        solution.symbol.set(new BasePoint(r, c, BaseDir.CENTER), `tri__${shaka_dict[data[2]]}`);
+        solution.symbol.set(new BasePoint(r, c, BaseDir.CENTER).toString(), `tri__${shaka_dict[data[2]]}`);
       } else if (_type === "gray") {
-        solution.surface.set(new BasePoint(r, c), BaseColor.GRAY);
+        solution.surface.set(new BasePoint(r, c).toString(), BaseColor.GRAY);
       } else if (_type === "black") {
-        solution.surface.set(new BasePoint(r, c), BaseColor.BLACK);
+        solution.surface.set(new BasePoint(r, c).toString(), BaseColor.BLACK);
       } else if (data.length === 2) {
-        solution.symbol.set(new BasePoint(r, c, BaseDir.CENTER), String(_type));
+        solution.symbol.set(new BasePoint(r, c, BaseDir.CENTER).toString(), String(_type));
       } else {
         // for debugging
-        solution.text.set(new BasePoint(r, c, BaseDir.CENTER), String(data[2]));
+        solution.text.set(new BasePoint(r, c, BaseDir.CENTER).toString(), String(data[2]));
       }
     }
     this.solutions.push(solution);

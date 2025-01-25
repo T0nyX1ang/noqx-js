@@ -23,6 +23,16 @@ class BasePoint {
     this.d = d;
     this.pos = pos;
   }
+
+  toString() {
+    return `${this.r},${this.c},${this.d.description},${this.pos}`;
+  }
+}
+
+function extract_point(point) {
+  /** Extract the point data from a string. */
+  const point_data = point.split(",");
+  return [parseInt(point_data[0], 10), parseInt(point_data[1], 10), point_data[2], point_data[3]];
 }
 
 class BasePuzzle {

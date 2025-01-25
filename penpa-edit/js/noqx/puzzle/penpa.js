@@ -98,7 +98,7 @@ class PenpaPuzzle extends BasePuzzle {
   _unpack_surface() {
     for (const [index, color_code] of Object.entries(this.problem.surface || {})) {
       const [coord] = this.index_to_coord(parseInt(index, 10));
-      const point = new BasePoint(coord[0], coord[1]);
+      const point = new BasePoint(coord[0], coord[1]).toString();
       if ([1, 3, 8].includes(color_code)) {
         this.surface.set(point, BaseColor.GRAY);
       }
@@ -118,10 +118,10 @@ class PenpaPuzzle extends BasePuzzle {
       if (num_data[2] === "4") {
         let i = 0;
         for (const data of num_data[0].split("").map(int_or_str)) {
-          this.text.set(new BasePoint(...coord, `tapa_${i++}`), data);
+          this.text.set(new BasePoint(...coord, `tapa_${i++}`).toString(), data);
         }
       } else if (num_data[2] !== "7") {
-        this.text.set(new BasePoint(...coord, "normal"), int_or_str(num_data[0]));
+        this.text.set(new BasePoint(...coord, "normal").toString(), int_or_str(num_data[0]));
       }
     }
   }
@@ -132,7 +132,7 @@ class PenpaPuzzle extends BasePuzzle {
       const [rc, category] = this.index_to_coord(Math.floor(idx_num / 4));
       const coord = category_to_direction(rc[0], rc[1], 0);
       const num_direction = (category - 1) * 4 + (idx_num % 4);
-      this.text.set(new BasePoint(...coord, `sudoku_${num_direction}`), int_or_str(num_data[0]));
+      this.text.set(new BasePoint(...coord, `sudoku_${num_direction}`).toString(), int_or_str(num_data[0]));
     }
   }
 
@@ -141,11 +141,14 @@ class PenpaPuzzle extends BasePuzzle {
       const [rc, category] = this.index_to_coord(parseInt(index, 10));
       if (Array.isArray(symbol_data[0])) {
         const symbol_name = `${symbol_data[1]}__${style_convert(symbol_data[0])}`;
-        this.symbol.set(new BasePoint(...category_to_direction(rc[0], rc[1], category), "multiple"), symbol_name);
+        this.symbol.set(
+          new BasePoint(...category_to_direction(rc[0], rc[1], category), "multiple").toString(),
+          symbol_name
+        );
       } else {
         const symbol_name = `${symbol_data[1]}__${symbol_data[0]}`;
         const pos = this.puzzle_name === "nondango" && symbol_name === "circle_M__4" ? "nondango_mark" : "normal";
-        this.symbol.set(new BasePoint(...category_to_direction(rc[0], rc[1], category), pos), symbol_name);
+        this.symbol.set(new BasePoint(...category_to_direction(rc[0], rc[1], category), pos).toString(), symbol_name);
       }
     }
   }
@@ -155,10 +158,10 @@ class PenpaPuzzle extends BasePuzzle {
       if (!index.includes(",")) {
         const [coord, category] = this.index_to_coord(parseInt(index, 10));
         if (category === 2) {
-          this.edge.set(new BasePoint(coord[0] + 1, coord[1], BaseDir.TOP), false);
+          this.edge.set(new BasePoint(coord[0] + 1, coord[1], BaseDir.TOP).toString(), false);
         }
         if (category === 3) {
-          this.edge.set(new BasePoint(coord[0], coord[1] + 1, BaseDir.LEFT), false);
+          this.edge.set(new BasePoint(coord[0], coord[1] + 1, BaseDir.LEFT).toString(), false);
         }
         continue;
       }
@@ -166,13 +169,13 @@ class PenpaPuzzle extends BasePuzzle {
       const [coord_1] = this.index_to_coord(index_1);
       const [coord_2] = this.index_to_coord(index_2);
       if (coord_1[0] === coord_2[0]) {
-        this.edge.set(new BasePoint(coord_2[0] + 1, coord_2[1], BaseDir.TOP), true);
+        this.edge.set(new BasePoint(coord_2[0] + 1, coord_2[1], BaseDir.TOP).toString(), true);
       } else if (coord_1[1] === coord_2[1]) {
-        this.edge.set(new BasePoint(coord_2[0], coord_2[1] + 1, BaseDir.LEFT), true);
+        this.edge.set(new BasePoint(coord_2[0], coord_2[1] + 1, BaseDir.LEFT).toString(), true);
       } else if (coord_1[0] - coord_2[0] === 1 && coord_2[1] - coord_1[1] === 1) {
-        this.edge.set(new BasePoint(coord_2[0], coord_2[1], BaseDir.DIAG_UP), true);
+        this.edge.set(new BasePoint(coord_2[0], coord_2[1], BaseDir.DIAG_UP).toString(), true);
       } else if (coord_2[0] - coord_1[0] === 1 && coord_1[1] - coord_2[1] === 1) {
-        this.edge.set(new BasePoint(coord_2[0], coord_2[1], BaseDir.DIAG_DOWN), true);
+        this.edge.set(new BasePoint(coord_2[0], coord_2[1], BaseDir.DIAG_DOWN).toString(), true);
       }
     }
   }
@@ -182,12 +185,12 @@ class PenpaPuzzle extends BasePuzzle {
       if (!index.includes(",")) {
         const [coord, category] = this.index_to_coord(parseInt(index, 10));
         if (category === 2) {
-          this.line.set(new BasePoint(coord[0], coord[1], BaseDir.CENTER, "d"), false);
-          this.line.set(new BasePoint(coord[0] + 1, coord[1], BaseDir.CENTER, "u"), false);
+          this.line.set(new BasePoint(coord[0], coord[1], BaseDir.CENTER, "d").toString(), false);
+          this.line.set(new BasePoint(coord[0] + 1, coord[1], BaseDir.CENTER, "u").toString(), false);
         }
         if (category === 3) {
-          this.line.set(new BasePoint(coord[0], coord[1], BaseDir.CENTER, "r"), false);
-          this.line.set(new BasePoint(coord[0], coord[1] + 1, BaseDir.CENTER, "l"), false);
+          this.line.set(new BasePoint(coord[0], coord[1], BaseDir.CENTER, "r").toString(), false);
+          this.line.set(new BasePoint(coord[0], coord[1] + 1, BaseDir.CENTER, "l").toString(), false);
         }
         continue;
       }
@@ -197,12 +200,12 @@ class PenpaPuzzle extends BasePuzzle {
       const hashi_num = this.puzzle_name === "hashi" ? (data === 30 ? "_2" : "_1") : "";
       if (category === 0) {
         const dd = coord_1[0] === coord_2[0] ? "rl" : "du";
-        this.line.set(new BasePoint(coord_1[0], coord_1[1], BaseDir.CENTER, dd[0] + hashi_num), true);
-        this.line.set(new BasePoint(coord_2[0], coord_2[1], BaseDir.CENTER, dd[1] + hashi_num), true);
+        this.line.set(new BasePoint(coord_1[0], coord_1[1], BaseDir.CENTER, dd[0] + hashi_num).toString(), true);
+        this.line.set(new BasePoint(coord_2[0], coord_2[1], BaseDir.CENTER, dd[1] + hashi_num).toString(), true);
       } else {
         const eqxy = coord_1[0] === coord_2[0] && coord_1[1] === coord_2[1];
         const d = category === 2 ? (eqxy ? "d" : "u") : eqxy ? "r" : "l";
-        this.line.set(new BasePoint(coord_1[0], coord_1[1], BaseDir.CENTER, d + hashi_num), true);
+        this.line.set(new BasePoint(coord_1[0], coord_1[1], BaseDir.CENTER, d + hashi_num).toString(), true);
       }
     }
   }
@@ -251,7 +254,8 @@ class PenpaPuzzle extends BasePuzzle {
 
   _pack_surface() {
     for (const [point, color] of this.surface.entries()) {
-      const index = this.coord_to_index([point.r, point.c], 0);
+      const [r, c, _, __] = extract_point(point);
+      const index = this.coord_to_index([r, c], 0);
       let color_code = null;
       if (color === BaseColor.BLACK) {
         color_code = 4;
@@ -268,7 +272,8 @@ class PenpaPuzzle extends BasePuzzle {
 
   _pack_text() {
     for (const [point, data] of this.text.entries()) {
-      const index = this.coord_to_index([point.r, point.c], 0);
+      const [r, c, _, __] = extract_point(point);
+      const index = this.coord_to_index([r, c], 0);
       if (!this.problem.number[`${index}`]) {
         this.solution.number = this.solution.number || {};
         this.solution.number[`${index}`] = [String(data), 2, "1"];
@@ -278,8 +283,9 @@ class PenpaPuzzle extends BasePuzzle {
 
   _pack_symbol() {
     for (const [point, symbol_name] of this.symbol.entries()) {
+      const [r, c, _, __] = extract_point(point);
       const [shape, style] = symbol_name.split("__");
-      const index = this.coord_to_index([point.r, point.c], 0);
+      const index = this.coord_to_index([r, c], 0);
       this.solution.symbol = this.solution.symbol || {};
       if (this.puzzle_name === "nondango") {
         this.solution.symbol[`${index}`] = [parseInt(style, 10), shape, 1];
@@ -291,20 +297,21 @@ class PenpaPuzzle extends BasePuzzle {
 
   _pack_edge() {
     for (const point of this.edge.keys()) {
-      let coord_1 = [point.r - 1, point.c - 1];
-      let coord_2 = [point.r - 1, point.c - 1];
-      if (point.d === BaseDir.TOP) {
-        coord_2 = [point.r - 1, point.c];
+      const [r, c, d, _] = extract_point(point);
+      let coord_1 = [r - 1, c - 1];
+      let coord_2 = [r - 1, c - 1];
+      if (d === BaseDir.TOP.description) {
+        coord_2 = [r - 1, c];
       }
-      if (point.d === BaseDir.LEFT) {
-        coord_2 = [point.r, point.c - 1];
+      if (d === BaseDir.LEFT.description) {
+        coord_2 = [r, c - 1];
       }
-      if (point.d === BaseDir.DIAG_UP) {
-        coord_1 = [point.r, point.c - 1];
-        coord_2 = [point.r - 1, point.c];
+      if (d === BaseDir.DIAG_UP.description) {
+        coord_1 = [r, c - 1];
+        coord_2 = [r - 1, c];
       }
-      if (point.d === BaseDir.DIAG_DOWN) {
-        coord_2 = [point.r, point.c];
+      if (d === BaseDir.DIAG_DOWN.description) {
+        coord_2 = [r, c];
       }
       const index_1 = this.coord_to_index(coord_1, 1);
       const index_2 = this.coord_to_index(coord_2, 1);
@@ -318,22 +325,23 @@ class PenpaPuzzle extends BasePuzzle {
 
   _pack_line() {
     for (const point of this.line.keys()) {
-      const index_1 = this.coord_to_index([point.r, point.c], 0);
+      const [r, c, _, pos] = extract_point(point);
+      const index_1 = this.coord_to_index([r, c], 0);
       let index_2;
-      if (point.pos.startsWith("r")) {
-        index_2 = this.coord_to_index([point.r, point.c], 3);
-      } else if (point.pos.startsWith("d")) {
-        index_2 = this.coord_to_index([point.r, point.c], 2);
-      } else if (point.pos.startsWith("l")) {
-        index_2 = this.coord_to_index([point.r, point.c - 1], 3);
-      } else if (point.pos.startsWith("u")) {
-        index_2 = this.coord_to_index([point.r - 1, point.c], 2);
+      if (pos.startsWith("r")) {
+        index_2 = this.coord_to_index([r, c], 3);
+      } else if (pos.startsWith("d")) {
+        index_2 = this.coord_to_index([r, c], 2);
+      } else if (pos.startsWith("l")) {
+        index_2 = this.coord_to_index([r, c - 1], 3);
+      } else if (pos.startsWith("u")) {
+        index_2 = this.coord_to_index([r - 1, c], 2);
       } else {
         throw new Error("Unsupported line direction.");
       }
       this.solution.line = this.solution.line || {};
       if (this.puzzle_name === "hashi") {
-        this.solution.line[`${index_1},${index_2}`] = point.pos.endsWith("_1") ? 3 : 30;
+        this.solution.line[`${index_1},${index_2}`] = pos.endsWith("_1") ? 3 : 30;
       } else if (!this.problem.line[`${index_1},${index_2}`]) {
         this.solution.line[`${index_1},${index_2}`] = 3;
       }

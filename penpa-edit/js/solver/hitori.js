@@ -15,18 +15,20 @@ modules["hitori"] = {
     solver.add_program_line(grid_color_connected("not black", 4, [puzzle.row, puzzle.col]));
 
     for (const [point, num] of puzzle.text.entries()) {
-      validate_direction(point.r, point.c, point.d);
-      validate_type(point.pos, "normal");
+      const [r, c, d, pos] = extract_point(point);
+      validate_direction(r, c, d);
+      validate_type(pos, "normal");
       if (typeof num === "number") {
-        solver.add_program_line(`number(${point.r}, ${point.c}, ${num}).`);
+        solver.add_program_line(`number(${r}, ${c}, ${num}).`);
       }
     }
 
     for (const [point, color] of puzzle.surface.entries()) {
+      const [r, c, _, __] = extract_point(point);
       if (BaseColor.DARK.includes(color)) {
-        solver.add_program_line(`black(${point.r}, ${point.c}).`);
+        solver.add_program_line(`black(${r}, ${c}).`);
       } else {
-        solver.add_program_line(`not black(${point.r}, ${point.c}).`);
+        solver.add_program_line(`not black(${r}, ${c}).`);
       }
     }
 
