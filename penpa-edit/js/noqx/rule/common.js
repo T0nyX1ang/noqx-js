@@ -64,7 +64,9 @@ function edge(rows, cols) {
 
 function direction(directions) {
   /** Generates facts for directions. */
-  return `direction(${Array.from(directions).map((d) => `"${d}"`).join("; ")}).`;
+  return `direction(${Array.from(directions)
+    .map((d) => `"${d}"`)
+    .join("; ")}).`;
 }
 
 function fill_path(color = "black", directed = false) {
@@ -88,8 +90,8 @@ function fill_num(_range, _type = "grid", _id = "A", color = null) {
    */
   const color_part = color ? `; ${color}(R, C)` : "";
   _range = Array.from(new Set(_range)).sort((a, b) => a - b); // canonicize the range
-  let i = 0,
-    range_seq = [];
+  let i = 0;
+  let range_seq = [];
 
   while (i < _range.length) {
     let start = i;
