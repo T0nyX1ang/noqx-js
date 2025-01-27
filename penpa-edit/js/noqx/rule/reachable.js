@@ -66,7 +66,7 @@ function grid_src_color_connected(src_cell, include_cells = null, exclude_cells 
 
   if (adj_type === "edge") {
     const propagation = `${tag}(${r}, ${c}, R, C) :- ${tag}(${r}, ${c}, R1, C1), grid(R, C), adj_edge(R, C, R1, C1).`;
-    const constraint = `:- ${tag}(${r}, ${c}, R, C), ${tag}(${r}, ${c}, R, C + 1), edge_left(R, C + 1).\n`;
+    let constraint = `:- ${tag}(${r}, ${c}, R, C), ${tag}(${r}, ${c}, R, C + 1), edge_left(R, C + 1).\n`;
     constraint += `:- ${tag}(${r}, ${c}, R, C), ${tag}(${r}, ${c}, R + 1, C), edge_top(R + 1, C).`;
     return `${initial}\n${propagation}\n${constraint}`;
   }
@@ -189,7 +189,7 @@ function grid_branch_color_connected(color = "black", adj_type = 4) {
   if (adj_type === "edge") {
     const initial = `${tag}(R, C, R, C) :- grid(R, C).`;
     const propagation = `${tag}(R0, C0, R, C) :- ${tag}(R0, C0, R1, C1), grid(R, C), adj_edge(R, C, R1, C1).`;
-    const constraint = `:- ${tag}(R, C, R, C + 1), edge_left(R, C + 1).\n`;
+    let constraint = `:- ${tag}(R, C, R, C + 1), edge_left(R, C + 1).\n`;
     constraint += `:- ${tag}(R, C, R + 1, C), edge_top(R + 1, C).\n`;
     constraint += `:- ${tag}(R, C + 1, R, C), edge_left(R, C + 1).\n`;
     constraint += `:- ${tag}(R + 1, C, R, C), edge_top(R + 1, C).`;
