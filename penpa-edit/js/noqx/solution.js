@@ -15,7 +15,7 @@ class ClingoSolver {
     // console.log("[Solver] Puzzle registered.");
   }
 
-  storeSolutions(solution_data) {
+  store_solution(solution_data) {
     if (!this.puzzle) throw new Error("Puzzle not registered.");
     const solution = new PenpaPuzzle(this.puzzle.puzzle_name, this.puzzle.content, this.puzzle.param);
     solution.decode();
@@ -31,7 +31,7 @@ class ClingoSolver {
       const c = parseInt(data[1], 10);
 
       if (_type.startsWith("edge_")) {
-        for (const d of BaseDir) {
+        for (const d of [BaseDir.LEFT, BaseDir.TOP, BaseDir.DIAG_UP, BaseDir.DIAG_DOWN]) {
           if (_type === `edge_${d.description}`) {
             solution.edge.set(new BasePoint(r, c, d).toString(), true);
           }
@@ -108,7 +108,7 @@ class ClingoSolver {
     console.info(`[Solver] ${puz_name} solver took ${result.Time.Total} seconds.`);
 
     for (const solution_data of result.Call[0].Witnesses) {
-      this.storeSolutions(solution_data);
+      this.store_solution(solution_data);
     }
   }
 }
