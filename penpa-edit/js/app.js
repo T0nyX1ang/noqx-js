@@ -262,6 +262,7 @@ $(document).ready(function () {
         solutionPointer = 0;
         load(solutionList[solutionPointer]);
       } catch (e) {
+        console.log(e);
         Swal.fire({
           icon: "error",
           title: "Error",

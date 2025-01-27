@@ -16,7 +16,6 @@ modules["aqre"] = {
     solver.add_program_line(avoid_rect(1, 4, [null, null], "not gray"));
 
     const areas = full_bfs(puzzle.row, puzzle.col, puzzle.edge, puzzle.text);
-    let i = 0;
     for (const [i, ar] of Array.from(areas.keys()).entries()) {
       solver.add_program_line(area(i, ar));
       const rc = areas.get(ar);
@@ -26,7 +25,7 @@ modules["aqre"] = {
           solver.add_program_line(count(num, "gray", "area", i));
         }
       }
-    };
+    }
 
     for (const [point, color] of puzzle.surface.entries()) {
       const [r, c, _, __] = extract_point(point);

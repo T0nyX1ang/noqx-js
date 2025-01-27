@@ -71,9 +71,11 @@ function full_bfs(rows, cols, edges, clues = null) {
   const clue_to_room = new Map();
   const rc_set = new Set();
 
-  for (const point of clues?.keys()) {
-    const [r, c, _, __] = extract_point(point);
-    rc_set.add(`${r},${c}`);
+  if (clues !== null && clues !== undefined) {
+    for (const point of clues.keys()) {
+      const [r, c, _, __] = extract_point(point);
+      rc_set.add(`${r},${c}`);
+    }
   }
 
   function* get_neighbors(r, c) {

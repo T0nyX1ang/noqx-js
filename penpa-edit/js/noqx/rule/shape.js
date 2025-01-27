@@ -164,53 +164,59 @@ function get_neighbor(r, c, type = 4) {
 }
 
 function canonicalize_shape(shape) {
-  shape = shape.sort();
+  shape.sort((a, b) => {
+    if (a[0] !== b[0]) return a[0] - b[0];
+    return a[1] - b[1];
+  });
   const [root_r, root_c] = shape[0];
-  const dr = -root_r,
-    dc = -root_c;
+  const dr = -root_r;
+  const dc = -root_c;
   return shape.map(([r, c]) => [r + dr, c + dc]);
 }
 
 function get_variants(shape, allow_rotations, allow_reflections) {
   const functions = new Set();
-  if (allow_rotations)
-    functions.add((shape) =>
-      canonicalize_shape(shape.map(([r, c]) => [-c, r]))
-    );
-  if (allow_reflections)
-    functions.add((shape) =>
-      canonicalize_shape(shape.map(([r, c]) => [-r, c]))
-    );
+  if (allow_rotations) functions.add((shape) => canonicalize_shape(shape.map(([r, c]) => [-c, r])));
+  if (allow_reflections) functions.add((shape) => canonicalize_shape(shape.map(([r, c]) => [-r, c])));
 
-  let result = new Set();
-  result.add(canonicalize_shape(shape));
+  const result = new Set();
+  const result_str = new Set();
+  const initial_shape = canonicalize_shape(shape);
+  result.add(initial_shape);
+  result_str.add(initial_shape.toString()); // result_str as a shadow set for result
 
   let all_shapes_covered = false;
   while (!all_shapes_covered) {
     const new_shapes = new Set();
-    const current_num_shapes = result.size;
+    const new_shapes_str = new Set(); // new_shapes_str as a shadow set for new_shapes
+
+    const current_num_shapes = result_str.size;
     for (const f of functions) {
       for (const s of result) {
-        new_shapes.add(f(s));
+        const new_shape = f(s);
+        if (!new_shapes_str.has(new_shape.toString())) {
+          new_shapes.add(new_shape);
+          new_shapes_str.add(new_shape.toString());
+        }
       }
     }
-    result = new Set([...result, ...new_shapes]);
-    all_shapes_covered = current_num_shapes === result.size;
+
+    // manual union of string sets
+    for (const s of new_shapes) {
+      if (!result_str.has(s.toString())) {
+        result_str.add(s.toString());
+        result.add(s);
+      }
+    }
+
+    all_shapes_covered = current_num_shapes === result_str.size;
   }
   return result;
 }
 
-function general_shape(
-  name,
-  id = 0,
-  deltas = null,
-  color = "black",
-  type = "grid",
-  adj_type = 4,
-  simple = false
-) {
+function general_shape(name, id = 0, deltas = null, color = "black", type = "grid", adj_type = 4, simple = false) {
   validate_type(type, ["grid", "area"]);
-  if (!deltas) throw new Error("shape_coordinates must be provided.");
+  if (!deltas) throw new Error("Shape coordinates must be provided.");
 
   const tag = tag_encode("shape", name, color);
   const tag_be = tag_encode("belong_to_shape", name, color);
@@ -218,10 +224,10 @@ function general_shape(
   let data = "";
 
   const variants = get_variants(deltas, true, true);
-  variants.forEach((variant, i) => {
+  for (const [i, variant] of Array.from(variants).entries()) {
     const valid = new Set();
     const belongs_to = new Set();
-    variant.forEach(([dr, dc]) => {
+    for (const [dr, dc] of variant) {
       if (type === "grid") {
         valid.add(`grid(R + ${dr}, C + ${dc})`);
         valid.add(`${color}(R + ${dr}, C + ${dc})`);
@@ -233,44 +239,35 @@ function general_shape(
         valid.add(`area(A, R + ${dr}, C + ${dc})`);
         valid.add(`${color}(R + ${dr}, C + ${dc})`);
         belongs_to.add(
-          `${tag_be}(A, R + ${dr}, C + ${dc}, ${id}, ${i}) :- area(A, R + ${dr}, C), ${tag}(A, R, C, ${id}, ${i}).`
+          `${tag_be}(A, R + ${dr}, C + ${dc}, ${id}, ${i}) :- area(A, R + ${dr}, C + ${dc}), ${tag}(A, R, C, ${id}, ${i}).`
         );
       }
-      get_neighbor(dr, dc, neighbor_type).forEach(([nr, nc]) => {
+      for (const [nr, nc] of get_neighbor(dr, dc, neighbor_type)) {
         if (variant.some(([vr, vc]) => vr === nr && vc === nc)) {
-          if (
-            ![4, 8, "x"].includes(adj_type) &&
-            (dr < nr || (dr === nr && dc < nc))
-          ) {
-            valid.add(
-              `adj_${adj_type}(R + ${dr}, C + ${dc}, R + ${nr}, C + ${nc})`
-            );
+          if (![4, 8, "x"].includes(adj_type) && (dr < nr || (dr === nr && dc < nc))) {
+            valid.add(`adj_${adj_type}(R + ${dr}, C + ${dc}, R + ${nr}, C + ${nc})`);
             valid.add(`${color}(R + ${nr}, C + ${nc})`);
           }
         } else if (!simple) {
           if (color === "grid") {
-            valid.add(
-              `not adj_${adj_type}(R + ${dr}, C + ${dc}, R + ${nr}, C + ${nc})`
-            );
+            valid.add(`not adj_${adj_type}(R + ${dr}, C + ${dc}, R + ${nr}, C + ${nc})`);
           } else {
             valid.add(
               `{ not adj_${adj_type}(R + ${dr}, C + ${dc}, R + ${nr}, C + ${nc}); not ${color}(R + ${nr}, C + ${nc}) } > 0`
             );
           }
         }
-      });
-    });
+      }
+    }
     if (type === "grid") {
-      data += `${tag}(R, C, ${id}, ${i}) :- grid(R, C), ${[...valid].join(
-        ", "
-      )}.\n${[...belongs_to].join("\n")}\n`;
+      data += `${tag}(R, C, ${id}, ${i}) :- grid(R, C), ${[...valid].join(", ")}.\n${[...belongs_to].join("\n")}\n`;
     }
     if (type === "area") {
-      data += `${tag}(A, R, C, ${id}, ${i}) :- area(A, R, C), ${[...valid].join(
-        ", "
-      )}.\n${[...belongs_to].join("\n")}\n`;
+      data += `${tag}(A, R, C, ${id}, ${i}) :- area(A, R, C), ${[...valid].join(", ")}.\n${[...belongs_to].join(
+        "\n"
+      )}\n`;
     }
-  });
+  }
 
   return data.trim();
 }
@@ -303,9 +300,7 @@ function count_shape(target, name, id = null, color = "black", type = "grid") {
 
 function all_rect(color = "black", square = false) {
   if (color.startsWith("not")) {
-    throw new Error(
-      "unsupported_color_prefix 'not', please define the color explicitly."
-    );
+    throw new Error("unsupported_color_prefix 'not', please define the color explicitly.");
   }
 
   const upleft = `upleft(R, C) :- grid(R, C), ${color}(R, C), not ${color}(R - 1, C), not ${color}(R, C - 1).\n`;
@@ -371,22 +366,14 @@ function avoid_rect(rect_r, rect_c, corner = [null, null], color = "black") {
   let rect_pattern;
   if (corner_r !== "R" && corner_c !== "C") {
     rect_pattern = Array.from({ length: rect_r }, (_, r) =>
-      Array.from(
-        { length: rect_c },
-        (_, c) => `${color}(${corner_r + r}, ${corner_c + c})`
-      )
+      Array.from({ length: rect_c }, (_, c) => `${color}(${corner_r + r}, ${corner_c + c})`)
     ).flat();
   } else {
     rect_pattern = Array.from({ length: rect_r }, (_, r) =>
-      Array.from(
-        { length: rect_c },
-        (_, c) => `${color}(${corner_r} + ${r}, ${corner_c} + ${c})`
-      )
+      Array.from({ length: rect_c }, (_, c) => `${color}(${corner_r} + ${r}, ${corner_c} + ${c})`)
     ).flat();
     rect_pattern.push(`grid(${corner_r}, ${corner_c})`);
-    rect_pattern.push(
-      `grid(${corner_r} + ${rect_r - 1}, ${corner_c} + ${rect_c - 1})`
-    );
+    rect_pattern.push(`grid(${corner_r} + ${rect_r - 1}, ${corner_c} + ${rect_c - 1})`);
   }
 
   return `:- ${rect_pattern.join(", ")}.`;
