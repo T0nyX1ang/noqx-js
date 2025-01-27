@@ -56,9 +56,9 @@ modules["anglers"] = {
       solver.add_program_line(`black(${r}, ${c}).`);
     }
 
-    for (const [point, draw] of Object.entries(puzzle.line)) {
+    for (const [point, draw] of puzzle.line.entries()) {
       const [r, c, _, d] = extract_point(point);
-      solver.add_program_line(`:-${draw ? "" : " not"} grid_direction(${r}, ${c}, "${d}").`);
+      solver.add_program_line(`:-${draw ? " not" : ""} grid_direction(${r}, ${c}, "${d}").`);
     }
 
     solver.add_program_line(display("grid_direction", 3));
