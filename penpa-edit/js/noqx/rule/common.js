@@ -64,8 +64,7 @@ function edge(rows, cols) {
 
 function direction(directions) {
   /** Generates facts for directions. */
-  const formatted_dirs = Array.isArray(directions) ? directions : [directions];
-  return `direction(${formatted_dirs.map((d) => `"${d}"`).join("; ")}).`;
+  return `direction(${Array.from(directions).map((d) => `"${d}"`).join("; ")}).`;
 }
 
 function fill_path(color = "black", directed = false) {
