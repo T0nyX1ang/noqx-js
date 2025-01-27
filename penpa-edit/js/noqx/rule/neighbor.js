@@ -15,18 +15,18 @@ function adjacent(_type = 4, include_self = false) {
   let rule = include_self ? `adj_${_type}(R, C, R, C) :- grid(R, C).\n` : "";
 
   if (_type === 4) {
-    rule += "adj_4(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| + |C - C1| == 1.";
+    rule += "adj_4(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| + |C - C1| = 1.";
     return rule;
   }
 
   if (_type === "x") {
-    rule += "adj_x(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| = 1, |C - C1| == 1.";
+    rule += "adj_x(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| = 1, |C - C1| = 1.";
     return rule;
   }
 
   if (_type === 8) {
-    rule += "adj_8(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| + |C - C1| == 1.\n";
-    rule += "adj_8(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| = 1, |C - C1| == 1.";
+    rule += "adj_8(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| + |C - C1| = 1.\n";
+    rule += "adj_8(R, C, R1, C1) :- grid(R, C), grid(R1, C1), |R - R1| = 1, |C - C1| = 1.";
     return rule;
   }
 

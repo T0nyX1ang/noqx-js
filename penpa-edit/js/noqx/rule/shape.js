@@ -143,22 +143,22 @@ const OMINOES = {
 };
 
 function get_neighbor(r, c, type = 4) {
-  const shape4 = [
+  const shape_4 = [
     [r - 1, c],
     [r + 1, c],
     [r, c - 1],
     [r, c + 1],
   ];
-  const shapeX = [
+  const shape_x = [
     [r - 1, c - 1],
     [r - 1, c + 1],
     [r + 1, c - 1],
     [r + 1, c + 1],
   ];
 
-  if (type === 4) return shape4;
-  if (type === "x") return shapeX;
-  if (type === 8) return shape4.concat(shapeX);
+  if (type === 4) return shape_4;
+  if (type === "x") return shape_x;
+  if (type === 8) return shape_4.concat(shape_x);
 
   throw new Error("invalid_type, must be one of 4, 8, 'x'.");
 }
