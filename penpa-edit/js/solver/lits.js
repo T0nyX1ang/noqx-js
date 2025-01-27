@@ -16,7 +16,7 @@ modules["lits"] = {
     solver.add_program_line(shade_c("gray"));
     solver.add_program_line(adjacent(4));
     solver.add_program_line(grid_color_connected("gray", 4, [puzzle.row, puzzle.col]));
-    solver.add_program_line(avoid_rect(2, 2, [null, null], "gray"));
+    solver.add_program_line(avoid_rect(2, 2, "gray"));
 
     const areas = full_bfs(puzzle.row, puzzle.col, puzzle.edge);
     for (const [i, ar] of Array.from(areas.keys()).entries()) {

@@ -10,10 +10,10 @@ modules["aqre"] = {
     solver.add_program_line(shade_c("gray"));
     solver.add_program_line(adjacent());
     solver.add_program_line(grid_color_connected("gray", 4, [puzzle.row, puzzle.col]));
-    solver.add_program_line(avoid_rect(4, 1, [null, null], "gray"));
-    solver.add_program_line(avoid_rect(1, 4, [null, null], "gray"));
-    solver.add_program_line(avoid_rect(4, 1, [null, null], "not gray"));
-    solver.add_program_line(avoid_rect(1, 4, [null, null], "not gray"));
+    solver.add_program_line(avoid_rect(4, 1, "gray"));
+    solver.add_program_line(avoid_rect(1, 4, "gray"));
+    solver.add_program_line(avoid_rect(4, 1, "not gray"));
+    solver.add_program_line(avoid_rect(1, 4, "not gray"));
 
     const areas = full_bfs(puzzle.row, puzzle.col, puzzle.edge, puzzle.text);
     for (const [i, ar] of Array.from(areas.keys()).entries()) {

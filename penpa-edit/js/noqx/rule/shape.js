@@ -358,7 +358,7 @@ function all_rect_region(square = false) {
   return upleft + left + up + remain + constraint + rect;
 }
 
-function avoid_rect(rect_r, rect_c, corner = [null, null], color = "black") {
+function avoid_rect(rect_r, rect_c, color = "black", corner = [null, null]) {
   let [corner_r, corner_c] = corner;
   corner_r = corner_r !== null ? corner_r : "R";
   corner_c = corner_c !== null ? corner_c : "C";
