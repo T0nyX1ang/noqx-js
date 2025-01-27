@@ -35,7 +35,17 @@ class BasePoint {
 }
 ```
 
-Therefore, all the keys of `surface`, `text`, `symbol`, `edge` and `line` are changed to a `String` object in the `Javascript` version.
+Therefore, all the keys of `surface`, `text`, `symbol`, `edge` and `line` are changed to a `String` object in the `Javascript` version. Meanwhile, a new conversion utility function is created to convert the `String` object back to an `Array` object:
+
+```js
+function extract_point(point) {
+  /** Extract the point data from a string. */
+  const point_data = point.split(",");
+  return [parseInt(point_data[0], 10), parseInt(point_data[1], 10), point_data[2], point_data[3]];
+}
+```
+
+You may need to do this conversion manually in each solver provided.
 
 ## License
 
