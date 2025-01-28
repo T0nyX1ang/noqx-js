@@ -1,4 +1,4 @@
-/* The Context solver. */
+/** The Context solver. */
 
 modules["context"] = {
   name: "Context",
