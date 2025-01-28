@@ -45,7 +45,23 @@ function extract_point(point) {
 }
 ```
 
-You may need to do this conversion manually in each solver provided.
+Due to the same reason, all sources from the clues should be called from the following utility function:
+
+```js
+function get_all_src(clues) {
+  /** Get all the sources from the clues. */
+  const all_src = new Set();
+  const all_src_str = new Set();
+  for (const point of clues.keys()) {
+    const [r, c, _, __] = extract_point(point);
+    if (!all_src_str.has(`${r},${c}`)) {
+      all_src_str.add(`${r},${c}`);
+      all_src.add([r, c]);
+    }
+  }
+  return all_src;
+}
+```
 
 ## License
 
