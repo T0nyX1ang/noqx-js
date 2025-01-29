@@ -39,14 +39,14 @@ modules["araf"] = {
       const [r, c, d, pos] = extract_point(point);
       validate_direction(r, c, d);
       validate_type(pos, "normal");
-      fail_false(typeof num === "number", `Clue at (${r}, ${c}) must be an integer.`);
+      fail_false(Number.isInteger(num), `Clue at (${r}, ${c}) must be an integer.`);
 
       const exclude = [];
       for (const [point1, num1] of puzzle.text.entries()) {
         const [r1, c1, d1, pos1] = extract_point(point1);
         validate_direction(r1, c1, d1);
         validate_type(pos1, "normal");
-        fail_false(typeof num === "number", `Clue at (${r}, ${c}) must be an integer.`);
+        fail_false(Number.isInteger(num), `Clue at (${r}, ${c}) must be an integer.`);
         if (Math.abs(r - r1) + Math.abs(c - c1) >= Math.max(parseInt(num), parseInt(num1))) {
           exclude.push([r1, c1]);
         }

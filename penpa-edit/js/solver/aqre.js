@@ -21,7 +21,7 @@ modules["aqre"] = {
       const rc = areas.get(ar);
       if (rc !== null && rc !== undefined) {
         const num = puzzle.text.get(new BasePoint(...rc, BaseDir.CENTER, "normal").toString());
-        if (typeof num === "number") {
+        if (Number.isInteger(num)) {
           solver.add_program_line(count(num, "gray", "area", i));
         }
       }

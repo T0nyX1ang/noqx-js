@@ -17,7 +17,7 @@ modules["context"] = {
       const [r, c, d, pos] = extract_point(point);
       validate_direction(r, c, d);
       validate_type(pos, "normal");
-      fail_false(typeof num === "number", `Clue at (${r}, ${c}) must be an integer.`);
+      fail_false(Number.isInteger(num), `Clue at (${r}, ${c}) must be an integer.`);
       solver.add_program_line(
         `:- not gray(${r}, ${c}), #count { R, C: adj_4(${r}, ${c}, R, C), gray(R, C) } != ${num}.`
       );

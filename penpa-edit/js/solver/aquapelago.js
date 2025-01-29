@@ -18,7 +18,7 @@ modules["aquapelago"] = {
       const [r, c, d, pos] = extract_point(point);
       validate_direction(r, c, d);
       validate_type(pos, "normal");
-      if (typeof num === "number") {
+      if (Number.isInteger(num)) {
         solver.add_program_line(grid_src_color_connected([r, c], null, null, "black", "x"));
         solver.add_program_line(count_reachable_src(num, [r, c], "grid", "black", "x"));
       }

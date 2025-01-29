@@ -18,7 +18,7 @@ modules["hitori"] = {
       const [r, c, d, pos] = extract_point(point);
       validate_direction(r, c, d);
       validate_type(pos, "normal");
-      if (typeof num === "number") {
+      if (Number.isInteger(num)) {
         solver.add_program_line(`number(${r}, ${c}, ${num}).`);
       }
     }

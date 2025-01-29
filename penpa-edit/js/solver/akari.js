@@ -31,7 +31,7 @@ modules["akari"] = {
       const [r, c, d, pos] = extract_point(point);
       validate_direction(r, c, d);
       validate_type(pos, "normal");
-      if (typeof num === "number") {
+      if (Number.isInteger(num)) {
         solver.add_program_line(count_adjacent(num, [r, c], "sun_moon__3"));
       }
     }

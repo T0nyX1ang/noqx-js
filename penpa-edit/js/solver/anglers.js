@@ -38,7 +38,7 @@ modules["anglers"] = {
       solver.add_program_line(`dead_end(${r}, ${c}).`);
       solver.add_program_line(grid_src_color_connected([r, c], null, null, "anglers", "loop"));
 
-      if (typeof num === "number") {
+      if (Number.isInteger(num)) {
         solver.add_program_line(count_reachable_src(num + 1, [r, c], "grid", "anglers", "loop"));
       }
 
