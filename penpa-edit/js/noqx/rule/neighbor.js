@@ -122,31 +122,33 @@ function area_same_color(color = "black") {
 function area_border(_id, src_cells, edge) {
   /** Generates a fact for the border of an area. */
   const edges = new Set();
+  const src_cells_str = new Set(src_cells.map(([r, c]) => `${r},${c}`));
+
   for (const [r, c] of src_cells) {
-    if (edge.get(new Point(r, c, BaseDir.TOP)) === true) {
+    if (edge.get(new BasePoint(r, c, BaseDir.TOP).toString()) === true) {
       edges.add(`area_border(${_id}, ${r}, ${c}, "u").`);
-      if (src_cells.has([r - 1, c])) {
+      if (src_cells_str.has(`${r - 1},${c}`)) {
         edges.add(`area_border(${_id}, ${r - 1}, ${c}, "d").`);
       }
     }
 
-    if (edge.get(new Point(r + 1, c, BaseDir.TOP)) === true) {
+    if (edge.get(new BasePoint(r + 1, c, BaseDir.TOP).toString()) === true) {
       edges.add(`area_border(${_id}, ${r}, ${c}, "d").`);
-      if (src_cells.has([r + 1, c])) {
+      if (src_cells_str.has(`${r + 1},${c}`)) {
         edges.add(`area_border(${_id}, ${r + 1}, ${c}, "u").`);
       }
     }
 
-    if (edge.get(new Point(r, c, BaseDir.LEFT)) === true) {
+    if (edge.get(new BasePoint(r, c, BaseDir.LEFT).toString()) === true) {
       edges.add(`area_border(${_id}, ${r}, ${c}, "l").`);
-      if (src_cells.has([r, c - 1])) {
+      if (src_cells_str.has(`${r},${c - 1}`)) {
         edges.add(`area_border(${_id}, ${r}, ${c - 1}, "r").`);
       }
     }
 
-    if (edge.get(new Point(r, c + 1, BaseDir.LEFT)) === true) {
-      edges.add(`area_border(${_id}, ${r}, ${c + 1}, "r").`);
-      if (src_cells.has([r, c + 1])) {
+    if (edge.get(new BasePoint(r, c + 1, BaseDir.LEFT).toString()) === true) {
+      edges.add(`area_border(${_id}, ${r}, ${c}, "r").`);
+      if (src_cells_str.has(`${r},${c + 1}`)) {
         edges.add(`area_border(${_id}, ${r}, ${c + 1}, "l").`);
       }
     }
