@@ -23,7 +23,7 @@ modules["creek"] = {
       const [r, c, d, pos] = extract_point(point);
       validate_direction(r, c, d, BaseDir.TOP_LEFT);
       validate_type(pos, "normal");
-      if (typeof num === "number") {
+      if (Number.isInteger(num)) {
         solver.add_program_line(creek_covering(num, r, c, "gray"));
       }
     }
