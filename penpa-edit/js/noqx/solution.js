@@ -44,15 +44,7 @@ class ClingoSolver {
           solution.line.set(new BasePoint(r, c, BaseDir.CENTER, grid_direction).toString(), true);
         }
       } else if (_type.startsWith("number")) {
-        if (this.puzzle.puzzle_name === "easyasabc") {
-          // convert penpa number to letter
-          solution.text.set(
-            new BasePoint(r, c, BaseDir.CENTER, "normal").toString(),
-            this.puzzle.param["letters"][parseInt(data[2], 10) - 1]
-          );
-        } else {
-          solution.text.set(new BasePoint(r, c, BaseDir.CENTER, "normal").toString(), parseInt(data[2], 10));
-        }
+        solution.text.set(new BasePoint(r, c, BaseDir.CENTER, "normal").toString(), parseInt(data[2], 10));
       } else if (_type.startsWith("content")) {
         solution.text.set(new BasePoint(r, c, BaseDir.CENTER).toString(), String(data[2]).replace('"', ""));
       } else if (_type === "triangle") {
