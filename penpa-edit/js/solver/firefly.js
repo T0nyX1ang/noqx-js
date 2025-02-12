@@ -1,13 +1,5 @@
 /** The Firefly (Hotaru Beam) solver. */
 
-function convert_direction_to_edge() {
-  let rule = 'edge_top(R, C) :- grid_out(R, C, "r").\n';
-  rule += 'edge_top(R, C) :- grid_in(R, C, "r").\n';
-  rule += 'edge_left(R, C) :- grid_out(R, C, "d").\n';
-  rule += 'edge_left(R, C) :- grid_in(R, C, "d").\n';
-  return rule.trim();
-}
-
 function restrict_num_bend(r, c, num, color) {
   let rule = `reachable(${r}, ${c}, ${r}, ${c}).\n`;
   rule += `reachable(${r}, ${c}, R, C) :- ${color}(R, C), grid(R1, C1), reachable(${r}, ${c}, R1, C1), adj_loop_directed(R1, C1, R, C).\n`;
@@ -38,7 +30,7 @@ modules["firefly"] = {
     solver.add_program_line(adjacent("loop_directed"));
     solver.add_program_line(directed_loop("firefly"));
     solver.add_program_line(grid_color_connected("firefly_all", "loop_directed"));
-    solver.add_program_line(convert_direction_to_edge());
+    solver.add_program_line(convert_direction_to_edge(true));
 
     const drdc = { 1: [0, 1], 2: [1, 0], 3: [0, -1], 4: [-1, 0] };
     const dict_dir = { 1: "r", 2: "d", 3: "l", 4: "u" };

@@ -29,15 +29,6 @@ function no_loop() {
   return rule.trim();
 }
 
-function convert_diag_direction_to_edge() {
-  /**
-   * Convert (diagonal) grid direction fact to edge fact.
-   */
-  let rule = 'edge_diag_down(R, C) :- grid_direction(R, C, "dr").\n';
-  rule += 'edge_diag_up(R, C) :- grid_direction(R + 1, C, "ur").\n';
-  return rule.trim();
-}
-
 modules["gokigen"] = {
   name: "Gokigen",
   category: "var",
@@ -50,7 +41,7 @@ modules["gokigen"] = {
     solver.add_program_line(fill_path("grid"));
     solver.add_program_line(slant_rule());
     solver.add_program_line(no_loop());
-    solver.add_program_line(convert_diag_direction_to_edge());
+    solver.add_program_line(convert_direction_to_edge(false, true));
 
     for (const [point, num] of puzzle.text.entries()) {
       const [r, c, d, pos] = extract_point(point);

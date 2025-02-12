@@ -159,3 +159,23 @@ function loop_turning(color = "white") {
     .join("\n")
     .trim();
 }
+
+function convert_direction_to_edge(directed = false, diagonal = false) {
+  /**
+   * Convert grid direction fact to edge fact.
+   */
+  const dir_dict = diagonal ? { diag_down: "dr", diag_up: "ur" } : { top: "r", left: "d" };
+
+  let rule = "";
+  for (const [d, pos] of Object.entries(dir_dict)) {
+    const new_row = d === "diag_up" ? "R + 1" : "R";
+    if (directed) {
+      rule += `edge_${d}(R, C) :- grid_in(${new_row}, C, "${pos}").\n`;
+      rule += `edge_${d}(R, C) :- grid_out(${new_row}, C, "${pos}").\n`;
+    } else {
+      rule += `edge_${d}(R, C) :- grid_direction(${new_row}, C, "${pos}").\n`;
+    }
+  }
+
+  return rule.trim();
+}
