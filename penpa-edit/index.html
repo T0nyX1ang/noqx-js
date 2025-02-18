@@ -63,6 +63,28 @@
   <script src="https://cdn.jsdelivr.net/gh/swaroopg92/penpa-edit@master/docs/js/translate.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/swaroopg92/penpa-edit@master/docs/js/timer.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/swaroopg92/penpa-edit@master/docs/js/conversion.js"></script>
+
+  <script src="./js/noqx_requires.js"></script>
+  <script type="text/javascript">
+    for (let i = 0; i < noqx_module.length; i++) {
+      let script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = `../noqx/${noqx_module[i]}.js`;
+      document.head.appendChild(script);
+    }
+
+    for (let i = 0; i < puzzle_type.length; i++) {
+      let script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = `../solver/${puzzle_type[i]}.js`;
+      document.head.appendChild(script);
+    }
+
+    let script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = `./js/app.js`;
+    document.head.appendChild(script);
+  </script>
 </head>
 
 <body>
@@ -72,62 +94,6 @@
       <a href="https://github.com/swaroopg92/penpa-edit" target="_blank">Penpa+</a> &copy; 2020-2024
       <button id="page_help" style="display: none;">Help</button> </span>
   </header>
-
-  <script src="./js/app.js"></script>
-
-  <script src="../noqx/puzzle/base.js"></script>
-  <script src="../noqx/puzzle/penpa.js"></script>
-  <script src="../noqx/rule/common.js"></script>
-  <script src="../noqx/rule/helper.js"></script>
-  <script src="../noqx/rule/loop.js"></script>
-  <script src="../noqx/rule/neighbor.js"></script>
-  <script src="../noqx/rule/reachable.js"></script>
-  <script src="../noqx/rule/shape.js"></script>
-  <script src="../noqx/rule/variety.js"></script>
-  <script src="../noqx/solution.js"></script>
-  <script src="../noqx/manager.js"></script>
-
-  <script src="../solver/akari.js"></script>
-  <script src="../solver/anglers.js"></script>
-  <script src="../solver/aqre.js"></script>
-  <script src="../solver/aquapelago.js"></script>
-  <script src="../solver/aquarium.js"></script>
-  <script src="../solver/araf.js"></script>
-  <script src="../solver/balance.js"></script>
-  <script src="../solver/battleship.js"></script>
-  <script src="../solver/binairo.js"></script>
-  <script src="../solver/bosanowa.js"></script>
-  <script src="../solver/box.js"></script>
-  <script src="../solver/canal.js"></script>
-  <script src="../solver/castle.js"></script>
-  <script src="../solver/cave.js"></script>
-  <script src="../solver/cbanana.js"></script>
-  <script src="../solver/circlesquare.js"></script>
-  <script src="../solver/cocktail.js"></script>
-  <script src="../solver/cojun.js"></script>
-  <script src="../solver/compass.js"></script>
-  <script src="../solver/context.js"></script>
-  <script src="../solver/coral.js"></script>
-  <script src="../solver/country.js"></script>
-  <script src="../solver/creek.js"></script>
-  <script src="../solver/detour.js"></script>
-  <script src="../solver/dominion.js"></script>
-  <script src="../solver/doppelblock.js"></script>
-  <script src="../solver/dotchi.js"></script>
-  <script src="../solver/doubleback.js"></script>
-  <script src="../solver/easyasabc.js"></script>
-  <script src="../solver/factors.js"></script>
-  <script src="../solver/fillmat.js"></script>
-  <script src="../solver/fillomino.js"></script>
-  <script src="../solver/fillpix.js"></script>
-  <script src="../solver/firefly.js"></script>
-  <script src="../solver/fivecells.js"></script>
-  <script src="../solver/fourcells.js"></script>
-  <script src="../solver/geradeweg.js"></script>
-  <script src="../solver/gokigen.js"></script>
-  <script src="../solver/hitori.js"></script>
-  <script src="../solver/lits.js"></script>
-  <script src="../solver/mines.js"></script>
 
   <div id="app-container">
     <div id="tool-container">
