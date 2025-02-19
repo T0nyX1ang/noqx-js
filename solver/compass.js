@@ -58,7 +58,11 @@ modules["compass"] = {
       ];
 
       for (const [r1, c1, r2, c2, direc] of edges) {
-        const prefix = puzzle.surface.has([r1, c1]) && puzzle.surface.get([r1, c1]) === color ? "not " : "";
+        const prefix =
+          puzzle.surface.has(new BasePoint(r1, c1).toString()) &&
+          puzzle.surface.get(new BasePoint(r1, c1).toString()) === color
+            ? "not "
+            : "";
         solver.add_program_line(`${prefix}edge_${direc}(${r2}, ${c2}).`);
       }
     }
