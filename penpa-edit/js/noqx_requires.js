@@ -44,6 +44,7 @@ const puzzle_type = [
   "heteromino",
   "heyablock",
   "heyawake",
+  "hinge",
   "hitori",
   "lits",
   "mines",
