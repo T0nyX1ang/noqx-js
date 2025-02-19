@@ -46,7 +46,7 @@ class ClingoSolver {
       } else if (_type.startsWith("number")) {
         solution.text.set(new BasePoint(r, c, BaseDir.CENTER, "normal").toString(), parseInt(data[2], 10));
       } else if (_type.startsWith("content")) {
-        solution.text.set(new BasePoint(r, c, BaseDir.CENTER).toString(), String(data[2]).replace('"', ""));
+        solution.text.set(new BasePoint(r, c, BaseDir.CENTER).toString(), String(data[2]).replaceAll('"', ""));
       } else if (_type === "triangle") {
         const shaka_dict = {
           '"ul"': "1",

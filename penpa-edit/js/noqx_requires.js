@@ -46,6 +46,7 @@ const puzzle_type = [
   "heyawake",
   "hinge",
   "hitori",
+  "juosan",
   "lits",
   "mines",
 ];
