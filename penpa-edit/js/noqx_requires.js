@@ -37,6 +37,7 @@ const puzzle_type = [
   "fourcells",
   "geradeweg",
   "gokigen",
+  "haisu",
   "hitori",
   "lits",
   "mines",
