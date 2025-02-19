@@ -42,6 +42,7 @@ const puzzle_type = [
   "hanare",
   "hashi",
   "heteromino",
+  "heyablock",
   "hitori",
   "lits",
   "mines",
