@@ -38,6 +38,7 @@ const puzzle_type = [
   "geradeweg",
   "gokigen",
   "haisu",
+  "hakoiri",
   "hitori",
   "lits",
   "mines",
