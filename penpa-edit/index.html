@@ -70,6 +70,7 @@
       let script = document.createElement("script");
       script.type = "text/javascript";
       script.src = `../noqx/${noqx_module[i]}.js`;
+      script.async = false;
       document.head.appendChild(script);
     }
 
@@ -77,12 +78,14 @@
       let script = document.createElement("script");
       script.type = "text/javascript";
       script.src = `../solver/${puzzle_type[i]}.js`;
+      script.async = false;
       document.head.appendChild(script);
     }
 
     let script = document.createElement("script");
     script.type = "text/javascript";
     script.src = `./js/app.js`;
+    script.async = false;
     document.head.appendChild(script);
   </script>
 </head>

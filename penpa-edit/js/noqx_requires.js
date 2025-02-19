@@ -51,6 +51,8 @@ const puzzle_type = [
 const noqx_module = [
   "puzzle/base",
   "puzzle/penpa",
+  "manager",
+  "solution",
   "rule/common",
   "rule/helper",
   "rule/loop",
@@ -58,6 +60,4 @@ const noqx_module = [
   "rule/reachable",
   "rule/shape",
   "rule/variety",
-  "manager",
-  "solution",
 ];
