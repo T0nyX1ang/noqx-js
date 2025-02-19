@@ -37,7 +37,7 @@ class ClingoSolver {
           }
         }
       } else if (_type.startsWith("grid_")) {
-        const grid_direction = String(data[2]).replace('"', "");
+        const grid_direction = String(data[2]).replaceAll('"', "");
         if (this.puzzle.puzzle_name === "hashi") {
           solution.line.set(new BasePoint(r, c, BaseDir.CENTER, `${grid_direction}_${data[3]}`).toString(), true);
         } else {

@@ -40,6 +40,7 @@ const puzzle_type = [
   "haisu",
   "hakoiri",
   "hanare",
+  "hashi",
   "hitori",
   "lits",
   "mines",

@@ -1,0 +1,89 @@
+/** The Hashi solver. */
+
+function hashi_bridge() {
+  /**
+   * Generate a rule for hashi constraints.
+   * A grid fact and a base_dir fact should be defined first.
+   */
+  let rule = "num(1..2).";
+  rule += "{ grid_direction(R, C, D, N) : direction(D), num(N) } :- grid(R, C), hashi(R, C).\n";
+  rule += ":- N != -1, number(R, C, N), #sum{ N1, D: grid_direction(R, C, D, N1) } != N.\n";
+
+  rule += "pass_by_loop(R, C) :- grid(R, C), #count { D: grid_direction(R, C, D, _) } = 2.\n";
+  rule += 'pass_by_straight(R, C) :- grid(R, C), num(N), grid_direction(R, C, "l", N), grid_direction(R, C, "r", N).\n';
+  rule += 'pass_by_straight(R, C) :- grid(R, C), num(N), grid_direction(R, C, "u", N), grid_direction(R, C, "d", N).\n';
+  rule += ":- grid(R, C), hashi(R, C), not number(R, C, _), not pass_by_straight(R, C).\n";
+  rule += ":- grid(R, C), hashi(R, C), not number(R, C, _), not pass_by_loop(R, C).\n";
+
+  // path along the edges should be connected
+  rule += ':- grid(R, C), grid_direction(R, C, "l", _), not grid_direction(R, C - 1, "r", _).\n';
+  rule += ':- grid(R, C), grid_direction(R, C, "u", _), not grid_direction(R - 1, C, "d", _).\n';
+  rule += ':- grid(R, C), grid_direction(R, C, "r", _), not grid_direction(R, C + 1, "l", _).\n';
+  rule += ':- grid(R, C), grid_direction(R, C, "d", _), not grid_direction(R + 1, C, "u", _).\n';
+
+  // path along the edges should have the same bridges
+  rule += ':- grid(R, C), grid_direction(R, C, "l", N1), grid_direction(R, C - 1, "r", N2), N1 != N2.\n';
+  rule += ':- grid(R, C), grid_direction(R, C, "u", N1), grid_direction(R - 1, C, "d", N2), N1 != N2.\n';
+  rule += ':- grid(R, C), grid_direction(R, C, "r", N1), grid_direction(R, C + 1, "l", N2), N1 != N2.\n';
+  rule += ':- grid(R, C), grid_direction(R, C, "d", N1), grid_direction(R + 1, C, "u", N2), N1 != N2.\n';
+
+  // path inside the cell
+  rule +=
+    ':- grid(R, C), num(N), not number(R, C, _), grid_direction(R, C, "l", N), not grid_direction(R, C, "r", N).\n';
+  rule +=
+    ':- grid(R, C), num(N), not number(R, C, _), grid_direction(R, C, "u", N), not grid_direction(R, C, "d", N).\n';
+
+  let adj = 'adj_loop(R0, C0, R, C) :- R = R0, C = C0 + 1, grid(R, C), grid(R0, C0), grid_direction(R, C, "l", _).\n';
+  adj += 'adj_loop(R0, C0, R, C) :- R = R0 + 1, C = C0, grid(R, C), grid(R0, C0), grid_direction(R, C, "u", _).\n';
+  adj += "adj_loop(R0, C0, R, C) :- adj_loop(R, C, R0, C0).";
+
+  return rule + adj.trim();
+}
+
+modules["hashi"] = {
+  name: "Hashiwokakero",
+  category: "loop",
+  aliases: ["bridges", "hashiwokakero"],
+  solve: async function solve(puzzle) {
+    solver.reset();
+    solver.register_puzzle(puzzle);
+    solver.add_program_line(defined("number", 3));
+    solver.add_program_line(grid(puzzle.row, puzzle.col));
+    solver.add_program_line(direction("lrud"));
+    solver.add_program_line(shade_c("hashi"));
+    solver.add_program_line(hashi_bridge());
+    solver.add_program_line(grid_color_connected("hashi", "loop"));
+
+    for (const [point, num] of puzzle.text.entries()) {
+      const [r, c, d, pos] = extract_point(point);
+      validate_direction(r, c, d);
+      validate_type(pos, "normal");
+      solver.add_program_line(`hashi(${r}, ${c}).`);
+      solver.add_program_line(`number(${r}, ${c}, ${Number.isInteger(num) ? num : -1}).`);
+    }
+
+    for (const [point, draw] of puzzle.line.entries()) {
+      const [r, c, _, d] = extract_point(point);
+      if (d.endsWith("_2") && draw) {
+        solver.add_program_line(`:- not grid_direction(${r}, ${c}, "${d[0]}", 2).`);
+      }
+      if (d.endsWith("_1") && draw) {
+        solver.add_program_line(`:- not grid_direction(${r}, ${c}, "${d[0]}", 1).`);
+      }
+    }
+
+    solver.add_program_line(display("grid_direction", 4));
+    await solver.solve();
+
+    return solver.solutions;
+  },
+  examples: [
+    {
+      data: "m=edit&p=7Vbdb9pADH/nr0B52qSTdl/5uLx1XbsXRre1U1VFCAHNVlRYOijbFMT/Xtuhyt2NVKWl7KWKYtn52b6fnYtz81+LwSxnImRSMJUwzgRcEU9YoiImVUw3X19n49tJnrbZweL2qpiBwtjJ8TH7PpjM81a29uq1lqVJywNWfkyzQAUskHT3WPklXZaf0rLLylOAAibgWQc0ETAJ6lGtnhOO2mH1UHDQu5UegXoB6mg8G03yfqdK9DnNyjMW4DrvKRrVYFr8zoMqjOxRMR2O8cFwcAvFzK/GN2tkvrgsrhdrX9FbsfKgotvZQFet6epKreii9lJ0rwZAdRNT01utoONfgWs/zZD2t1pNavU0XYLspstAcwxtAzEGCSCflvBA1aYGU9Zm5KKJY4aYrHYO3VQhpqrNBJ0tU3lEktjBjesupHDWEhLjbTx0bYXpdG1rjLdw7a8vNEZYKxB/28biLTvCjE6GyK1YRBjheMTGf5J4dRmXheQuLoVbtxRunVL4K0jqlJVBuXXBN+5H0Cax1gg9DiH22okIPdbUG4tV7HGIPX/jvw1pcI3aQ3HcibaHEi5LRZ1xPTDGyiHd/aqky0Ipl7VS/2SkXllrauw2zMx72+uUCt23pRK394o2vWUbf08p432QXg1aet+vRP+6Bi2xB7bt7mKtMJ+FK8xn45ivZgRjRNAwuSB5TFKSPINZw0pF8gNJTjIk2SGfI5LnJA9JapIR+cQ4rbaaZ8+hA7OQ4VRQUKVgOAdRixjOAcVBjRnOO8UfyTuDfPgDbbrCV/QV3T3aa2VBZ/wzb3eL2XQwgWNCdzEd5rN7G45kq1bwN6AbJgVs9ddT2v5Padh9vrfZtptRm0Fj17ORlScsuFn0B/1RAXsMeleBNEI3g0InelvkwYTPAR8s4oXAfRJ6NEz/t6bU9Mfb3dsUOor2gZhYbgk8cf1wW8QYsSUA3Wyq0qgtgeZcgDTW0oQY09Tl/wccPQEQXGzs/W6RfbWFN7xGzs0uQnZ42q7O2OXJY/9NcKKu/ql/iuvBdT4r2m/IfDecjS9/5PO3Qa91Bw==",
+    },
+    {
+      url: "https://puzz.link/p?hashi/19/14/2g2g3g3g2i2g3g2q2g2g1h3g2g3h2v2i3g2h1g2h1g2g3p2g23g2g2g2j2g2i2h2g3g3g33zh2h3g1h2g32h1g2g2h2j4g3h1h2l2g1j23g2h4g2g1h2h3g2o1g2h2p2g2i2k1g2g3g4j3h22g3h2",
+      test: false,
+    },
+  ],
+};
