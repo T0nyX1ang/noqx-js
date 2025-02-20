@@ -51,6 +51,7 @@ const puzzle_type = [
   "kakuru",
   "kazunori",
   "koburin",
+  "kramma",
   "lits",
   "mines",
 ];
