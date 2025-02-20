@@ -48,6 +48,7 @@ const puzzle_type = [
   "hitori",
   "juosan",
   "kakuro",
+  "kakuru",
   "lits",
   "mines",
 ];
