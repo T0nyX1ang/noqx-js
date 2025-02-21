@@ -67,6 +67,7 @@ const puzzle_type = [
   "minarism",
   "mines",
   "mochikoro",
+  "mochinyoro",
 ];
 
 const noqx_module = [
