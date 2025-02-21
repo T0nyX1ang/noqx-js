@@ -62,6 +62,7 @@ const puzzle_type = [
   "magnets",
   "mannequin",
   "martini",
+  "masyu",
   "mines",
 ];
 
