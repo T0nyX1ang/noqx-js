@@ -70,6 +70,7 @@ const puzzle_type = [
   "mochinyoro",
   "moonsun",
   "myopia",
+  "nagare",
 ];
 
 const noqx_module = [
