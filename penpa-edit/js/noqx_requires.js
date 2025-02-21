@@ -59,6 +59,7 @@ const puzzle_type = [
   "lightshadow",
   "lits",
   "lookair",
+  "magnets",
   "mines",
 ];
 
