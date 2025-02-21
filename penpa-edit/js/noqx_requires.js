@@ -55,6 +55,7 @@ const puzzle_type = [
   "kropki",
   "kurochute",
   "kurodoko",
+  "kurotto",
   "lits",
   "mines",
 ];
