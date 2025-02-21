@@ -63,6 +63,7 @@ const puzzle_type = [
   "mannequin",
   "martini",
   "masyu",
+  "meander",
   "mines",
 ];
 
