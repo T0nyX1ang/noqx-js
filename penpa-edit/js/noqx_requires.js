@@ -61,6 +61,7 @@ const puzzle_type = [
   "lookair",
   "magnets",
   "mannequin",
+  "martini",
   "mines",
 ];
 
