@@ -1,24 +1,20 @@
 /** The Balance Loop solver. */
 
 function balance_rule() {
-  const rule = [
-    ':- black(R, C), segment(R, C, N1, N2, "T"), |R - N1| = |C - N2|.',
-    ':- black(R, C), segment(R, C, N1, N2, "V"), |R - N1| = |R - N2|.',
-    ':- black(R, C), segment(R, C, N1, N2, "H"), |C - N1| = |C - N2|.',
-    ':- white(R, C), segment(R, C, N1, N2, "T"), |R - N1| != |C - N2|.',
-    ':- white(R, C), segment(R, C, N1, N2, "V"), |R - N1| != |R - N2|.',
-    ':- white(R, C), segment(R, C, N1, N2, "H"), |C - N1| != |C - N2|.',
-  ].join("\n");
+  let rule = ':- black(R, C), segment(R, C, N1, N2, "T"), |R - N1| = |C - N2|.\n';
+  rule += ':- black(R, C), segment(R, C, N1, N2, "V"), |R - N1| = |R - N2|.\n';
+  rule += ':- black(R, C), segment(R, C, N1, N2, "H"), |C - N1| = |C - N2|.\n';
+  rule += ':- white(R, C), segment(R, C, N1, N2, "T"), |R - N1| != |C - N2|.\n';
+  rule += ':- white(R, C), segment(R, C, N1, N2, "V"), |R - N1| != |R - N2|.\n';
+  rule += ':- white(R, C), segment(R, C, N1, N2, "H"), |C - N1| != |C - N2|.';
   return rule;
 }
 
 function count_balance(target, src_cell) {
   const [r, c] = src_cell;
-  const rule = [
-    `:- segment(${r}, ${c}, N1, N2, "T"), |${r} - N1| + |${c} - N2| != ${target}.`,
-    `:- segment(${r}, ${c}, N1, N2, "V"), |${r} - N1| + |${r} - N2| != ${target}.`,
-    `:- segment(${r}, ${c}, N1, N2, "H"), |${c} - N1| + |${c} - N2| != ${target}.`,
-  ].join("\n");
+  let rule = `:- segment(${r}, ${c}, N1, N2, "T"), |${r} - N1| + |${c} - N2| != ${target}.\n`;
+  rule += `:- segment(${r}, ${c}, N1, N2, "V"), |${r} - N1| + |${r} - N2| != ${target}.\n`;
+  rule += `:- segment(${r}, ${c}, N1, N2, "H"), |${c} - N1| + |${c} - N2| != ${target}.`;
   return rule;
 }
 

@@ -4,13 +4,10 @@ function straight_line() {
   /**
    * Generate a straight line rule.
    */
-  const rule = [
-    ":- grid(R, C), grid(R + 1, C), edge_left(R, C), not edge_left(R + 1, C).",
-    ":- grid(R, C), grid(R + 1, C), not edge_left(R, C), edge_left(R + 1, C).",
-    ":- grid(R, C), grid(R, C + 1), edge_top(R, C), not edge_top(R, C + 1).",
-    ":- grid(R, C), grid(R, C + 1), not edge_top(R, C), edge_top(R, C + 1).",
-  ].join("\n");
-
+  let rule = ":- grid(R, C), grid(R + 1, C), edge_left(R, C), not edge_left(R + 1, C).\n";
+  rule += ":- grid(R, C), grid(R + 1, C), not edge_left(R, C), edge_left(R + 1, C).\n";
+  rule += ":- grid(R, C), grid(R, C + 1), edge_top(R, C), not edge_top(R, C + 1).\n";
+  rule += ":- grid(R, C), grid(R, C + 1), not edge_top(R, C), edge_top(R, C + 1).";
   return rule;
 }
 
