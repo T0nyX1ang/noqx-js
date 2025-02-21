@@ -68,6 +68,7 @@ const puzzle_type = [
   "mines",
   "mochikoro",
   "mochinyoro",
+  "moonsun",
 ];
 
 const noqx_module = [
