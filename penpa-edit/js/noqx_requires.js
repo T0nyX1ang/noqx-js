@@ -66,6 +66,7 @@ const puzzle_type = [
   "meander",
   "minarism",
   "mines",
+  "mochikoro",
 ];
 
 const noqx_module = [
