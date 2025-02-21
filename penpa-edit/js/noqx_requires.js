@@ -58,6 +58,7 @@ const puzzle_type = [
   "kurotto",
   "lightshadow",
   "lits",
+  "lookair",
   "mines",
 ];
 

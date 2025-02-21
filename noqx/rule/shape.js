@@ -324,7 +324,7 @@ function all_rect(color = "black", square = false) {
     constraint += `:- upleft(R, C), not left(R + 1, C), up(R, C + 1).\n`;
   }
 
-  return upleft + left + up + remain + constraint;
+  return (upleft + left + up + remain + constraint).trim();
 }
 
 function all_rect_region(square = false) {
