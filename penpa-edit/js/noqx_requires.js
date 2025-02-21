@@ -53,6 +53,7 @@ const puzzle_type = [
   "koburin",
   "kramma",
   "kropki",
+  "kurochute",
   "lits",
   "mines",
 ];
