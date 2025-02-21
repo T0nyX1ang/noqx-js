@@ -64,6 +64,7 @@ const puzzle_type = [
   "martini",
   "masyu",
   "meander",
+  "minarism",
   "mines",
 ];
 
