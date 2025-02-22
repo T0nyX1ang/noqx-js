@@ -350,7 +350,7 @@ function all_rect_region(square = false) {
     constraint += `:- upleft(R, C), MR = ${r_min}, MC = ${c_min}, MR - R != MC - C.\n`;
   }
 
-  const rect = `:- grid(R, C), left(R, C), remain(R, C + 1), edge_left(R, C + 1).\n`;
+  let rect = `:- grid(R, C), left(R, C), remain(R, C + 1), edge_left(R, C + 1).\n`;
   rect += `:- grid(R, C), remain(R, C), remain(R, C + 1), edge_left(R, C + 1).\n`;
   rect += `:- grid(R, C), up(R, C), remain(R + 1, C), edge_top(R + 1, C).\n`;
   rect += `:- grid(R, C), remain(R, C), remain(R + 1, C), edge_top(R + 1, C).`;

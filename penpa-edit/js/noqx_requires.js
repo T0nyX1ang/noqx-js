@@ -72,6 +72,7 @@ const puzzle_type = [
   "myopia",
   "nagare",
   "nanro",
+  "nawabari",
 ];
 
 const noqx_module = [
