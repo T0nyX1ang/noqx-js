@@ -73,6 +73,7 @@ const puzzle_type = [
   "nagare",
   "nanro",
   "nawabari",
+  "ncells",
 ];
 
 const noqx_module = [
