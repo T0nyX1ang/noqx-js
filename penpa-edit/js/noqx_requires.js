@@ -71,6 +71,7 @@ const puzzle_type = [
   "moonsun",
   "myopia",
   "nagare",
+  "nanro",
 ];
 
 const noqx_module = [
