@@ -75,6 +75,7 @@ const puzzle_type = [
   "nawabari",
   "ncells",
   "news",
+  "nondango",
 ];
 
 const noqx_module = [
