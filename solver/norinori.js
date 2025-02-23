@@ -1,13 +1,5 @@
 /** The Norinori solver. */
 
-function nori_adjacent(color = "gray", adj_type = 4) {
-  /**
-   * Generates a constraint for Norinori puzzles.
-   * A grid rule and an adjacent rule should be defined first.
-   */
-  return `:- grid(R, C), ${color}(R, C), #count { R1, C1: ${color}(R1, C1), adj_${adj_type}(R, C, R1, C1) } != 1.`;
-}
-
 modules["norinori"] = {
   name: "Norinori",
   category: "shade",

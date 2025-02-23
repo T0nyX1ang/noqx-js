@@ -1,5 +1,13 @@
 /** Variety rules and constraints which are not catagorized in other files. */
 
+function nori_adjacent(color = "black", adj_type = 4) {
+  /**
+   * Generates a constraint for Norinori puzzles.
+   * A grid rule and an adjacent rule should be defined first.
+   */
+  return `:- grid(R, C), ${color}(R, C), #count { R1, C1: ${color}(R1, C1), adj_${adj_type}(R, C, R1, C1) } != 1.`;
+}
+
 function yaji_count(target, src_cell, arrow_direction, color = "black", unshade_clue = true) {
   /**
    * Generates a constraint for counting the number of {color} cells in a row / col.
