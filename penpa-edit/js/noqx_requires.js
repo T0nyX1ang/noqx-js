@@ -82,6 +82,7 @@ const puzzle_type = [
   "nothing",
   "numlin",
   "numrope",
+  "nuribou",
 ];
 
 const noqx_module = [

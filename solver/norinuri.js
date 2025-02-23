@@ -20,12 +20,11 @@ modules["norinuri"] = {
       validate_type(pos, "normal");
 
       const current_excluded = Array.from(all_src).filter((src) => src[0] !== r || src[1] !== c);
-      const color = puzzle.surface.get(new BasePoint(r, c).toString()) === BaseColor.BLACK ? "black" : "not black";
-      solver.add_program_line(`${color}(${r}, ${c}).`);
-      solver.add_program_line(grid_src_color_connected([r, c], null, current_excluded, color));
+      solver.add_program_line(`not black(${r}, ${c}).`);
+      solver.add_program_line(grid_src_color_connected([r, c], null, current_excluded, "not black"));
 
       if (Number.isInteger(num)) {
-        solver.add_program_line(count_reachable_src(num, [r, c], "grid", color));
+        solver.add_program_line(count_reachable_src(num, [r, c], "grid", "not black"));
       }
     }
 
