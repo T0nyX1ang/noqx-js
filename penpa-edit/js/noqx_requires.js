@@ -77,6 +77,7 @@ const puzzle_type = [
   "news",
   "nondango",
   "nonogram",
+  "norinori",
 ];
 
 const noqx_module = [
