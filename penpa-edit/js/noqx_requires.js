@@ -85,6 +85,7 @@ const puzzle_type = [
   "nuribou",
   "nurikabe",
   "nurimisaki",
+  "nuriuzu",
 ];
 
 const noqx_module = [
