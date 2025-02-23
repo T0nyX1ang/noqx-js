@@ -79,6 +79,7 @@ const puzzle_type = [
   "nonogram",
   "norinori",
   "norinuri",
+  "nothing",
 ];
 
 const noqx_module = [
