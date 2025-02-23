@@ -80,6 +80,7 @@ const puzzle_type = [
   "norinori",
   "norinuri",
   "nothing",
+  "numlin",
 ];
 
 const noqx_module = [
