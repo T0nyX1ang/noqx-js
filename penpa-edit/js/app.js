@@ -112,10 +112,10 @@ function make_param(id, type, name, value) {
   return paramDiv;
 }
 
-$(document).ready(async function () {
+$(document).ready(function () {
   const CLINGO_WEB_WORKER_URL = "./js/clingo.web.worker.js";
   const CLINGO_WASM_URL = "https://cdn.jsdelivr.net/npm/clingo-wasm@0.1.1/dist/clingo.wasm";
-  await clingo.init(CLINGO_WASM_URL);
+  clingo.init(CLINGO_WASM_URL);
 
   const urlBase = "./penpa-edit/#";
   const issueMessage =
