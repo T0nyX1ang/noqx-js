@@ -108,6 +108,7 @@ const puzzle_type = [
   "statuepark",
   "stostone",
   "sudoku",
+  "sukoro",
 ];
 
 const noqx_module = [
