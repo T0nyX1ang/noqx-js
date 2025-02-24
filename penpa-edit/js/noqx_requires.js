@@ -100,6 +100,7 @@ const puzzle_type = [
   "shimaguni",
   "simplegako",
   "simpleloop",
+  "skyscrapers",
 ];
 
 const noqx_module = [
