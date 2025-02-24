@@ -105,6 +105,7 @@ const puzzle_type = [
   "snake",
   "squarejam",
   "starbattle",
+  "statuepark",
 ];
 
 const noqx_module = [
