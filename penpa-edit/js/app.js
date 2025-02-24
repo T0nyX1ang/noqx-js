@@ -112,10 +112,10 @@ function make_param(id, type, name, value) {
   return paramDiv;
 }
 
-$(document).ready(function () {
+$(document).ready(async function () {
   const CLINGO_WEB_WORKER_URL = "./js/clingo.web.worker.js";
   const CLINGO_WASM_URL = "https://cdn.jsdelivr.net/npm/clingo-wasm@0.1.1/dist/clingo.wasm";
-  clingo.init(CLINGO_WASM_URL);
+  await clingo.init(CLINGO_WASM_URL);
 
   const urlBase = "./penpa-edit/#";
   const issueMessage =
@@ -294,12 +294,12 @@ $(document).ready(function () {
     }
   });
 
-  resetButton.addEventListener("click", () => {
+  resetButton.addEventListener("click", async () => {
     if (puzzleContent !== null) {
       if (solveButton.textContent === "Solving..." && solveButton.disabled === true) {
         clingo.worker.terminate();  // terminate the web worker
         clingo.worker = new Worker(CLINGO_WEB_WORKER_URL);  // respawn a new web worker
-        clingo.init(CLINGO_WASM_URL);  // reinitialize clingo
+        await clingo.init(CLINGO_WASM_URL);  // reinitialize clingo
       }
       imp(puzzleContent.includes(urlBase) ? puzzleContent : `${urlBase}${puzzleContent}`);
     } else {
