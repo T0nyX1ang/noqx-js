@@ -92,6 +92,7 @@ const puzzle_type = [
   "pentominous",
   "pentopia",
   "pipelink",
+  "putteria",
 ];
 
 const noqx_module = [
