@@ -104,6 +104,7 @@ const puzzle_type = [
   "slitherlink",
   "snake",
   "squarejam",
+  "starbattle",
 ];
 
 const noqx_module = [
