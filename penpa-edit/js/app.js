@@ -113,6 +113,10 @@ function make_param(id, type, name, value) {
 }
 
 $(document).ready(function () {
+  const CLINGO_WEB_WORKER_URL = "./js/clingo.web.worker.js";
+  const CLINGO_WASM_URL = "https://cdn.jsdelivr.net/npm/clingo-wasm@0.1.1/dist/clingo.wasm";
+  clingo.init(CLINGO_WASM_URL);
+
   const urlBase = "./penpa-edit/#";
   const issueMessage =
     "Submit an issue <a href='https://github.com/T0nyX1ang/noqx-js/issues/new/choose' target='_blank'>here</a> to help us improve.";
@@ -292,6 +296,11 @@ $(document).ready(function () {
 
   resetButton.addEventListener("click", () => {
     if (puzzleContent !== null) {
+      if (solveButton.textContent === "Solving..." && solveButton.disabled === true) {
+        clingo.worker.terminate();  // terminate the web worker
+        clingo.worker = new Worker(CLINGO_WEB_WORKER_URL);  // respawn a new web worker
+        clingo.init(CLINGO_WASM_URL);  // reinitialize clingo
+      }
       imp(puzzleContent.includes(urlBase) ? puzzleContent : `${urlBase}${puzzleContent}`);
     } else {
       pu.reset_board();

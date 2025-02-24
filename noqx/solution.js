@@ -6,8 +6,6 @@ class ClingoSolver {
     this.program = "";
     this.puzzle = null;
     this.solutions = [];
-
-    clingo.init("https://cdn.jsdelivr.net/npm/clingo-wasm@0.1.1/dist/clingo.wasm");
   }
 
   register_puzzle(puzzle) {
