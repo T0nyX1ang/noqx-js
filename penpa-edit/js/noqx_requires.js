@@ -90,6 +90,7 @@ const puzzle_type = [
   "paintarea",
   "patchwork",
   "pentominous",
+  "pentopia",
 ];
 
 const noqx_module = [
