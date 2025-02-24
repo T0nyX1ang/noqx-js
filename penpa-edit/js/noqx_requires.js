@@ -93,6 +93,7 @@ const puzzle_type = [
   "pentopia",
   "pipelink",
   "putteria",
+  "railpool",
 ];
 
 const noqx_module = [
