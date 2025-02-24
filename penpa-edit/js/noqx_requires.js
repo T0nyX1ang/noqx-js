@@ -107,6 +107,7 @@ const puzzle_type = [
   "starbattle",
   "statuepark",
   "stostone",
+  "sudoku",
 ];
 
 const noqx_module = [
