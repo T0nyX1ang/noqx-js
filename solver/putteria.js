@@ -7,7 +7,7 @@ function putteria_fill_constraint() {
   return ":- area(A, _, _), #count { R, C : area(A, R, C), number(R, C, N) } != 1.";
 }
 
-function avoid_num_adjacent(adj_type = 4) {
+function putteria_avoid_num_adjacent(adj_type = 4) {
   /**
    * Generate a constraint to avoid adjacent cells with the same number.
    */
@@ -22,7 +22,7 @@ modules["putteria"] = {
     solver.register_puzzle(puzzle);
     solver.add_program_line(grid(puzzle.row, puzzle.col));
     solver.add_program_line(adjacent());
-    solver.add_program_line(avoid_num_adjacent());
+    solver.add_program_line(putteria_avoid_num_adjacent());
     solver.add_program_line(unique_num("not gray", "row"));
     solver.add_program_line(unique_num("not gray", "col"));
 
