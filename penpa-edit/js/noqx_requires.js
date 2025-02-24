@@ -97,6 +97,7 @@ const puzzle_type = [
   "ripple",
   "shakashaka",
   "shikaku",
+  "shimaguni",
 ];
 
 const noqx_module = [
