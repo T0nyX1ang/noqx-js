@@ -36,7 +36,7 @@ modules["numrope"] = {
 
     for (const [point, color] of puzzle.surface.entries()) {
       const [r, c, _, __] = extract_point(point);
-      fail_false(BaseColor.DARK.includes(color), `Invalid color at (${r}, ${c})`);
+      fail_false(BaseColor.DARK.includes(color), `Invalid color at (${r}, ${c}).`);
       solver.add_program_line(`hole(${r}, ${c}).`);
     }
 

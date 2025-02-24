@@ -30,7 +30,7 @@ modules["hanare"] = {
 
     for (const [point, color] of puzzle.surface.entries()) {
       const [r, c, _, __] = extract_point(point);
-      fail_false(color === BaseColor.GREEN, `Invalid color at (${r}, ${c})`);
+      fail_false(color === BaseColor.GREEN, `Invalid color at (${r}, ${c}).`);
       solver.add_program_line(`white(${r}, ${c}).`);
     }
 
