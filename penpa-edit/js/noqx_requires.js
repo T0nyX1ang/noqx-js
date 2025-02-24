@@ -102,6 +102,7 @@ const puzzle_type = [
   "simpleloop",
   "skyscrapers",
   "slitherlink",
+  "snake",
 ];
 
 const noqx_module = [
