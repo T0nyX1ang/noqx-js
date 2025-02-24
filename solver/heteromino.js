@@ -1,6 +1,6 @@
 /** The Heteromino solver. */
 
-function avoid_adj_same_omino(color = "black") {
+function avoid_adj_same_heteromino(color = "black") {
   /**
    * Generates a constraint to avoid adjacent ominos with the same type.
    * An split by edge rule, an omino rule should be defined first.
@@ -26,7 +26,7 @@ modules["heteromino"] = {
     solver.add_program_line(edge(puzzle.row, puzzle.col));
     solver.add_program_line(adjacent("edge"));
     solver.add_program_line(all_shapes("omino_3", "grid"));
-    solver.add_program_line(avoid_adj_same_omino("grid"));
+    solver.add_program_line(avoid_adj_same_heteromino("grid"));
 
     for (const [i, o_type] of Object.keys(OMINOES[3]).entries()) {
       const o_shape = OMINOES[3][o_type];
