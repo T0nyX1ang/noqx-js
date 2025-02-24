@@ -111,6 +111,7 @@ const puzzle_type = [
   "sukoro",
   "sukororoom",
   "symmarea",
+  "tapa",
 ];
 
 const noqx_module = [
