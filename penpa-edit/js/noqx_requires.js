@@ -109,6 +109,7 @@ const puzzle_type = [
   "stostone",
   "sudoku",
   "sukoro",
+  "sukororoom",
 ];
 
 const noqx_module = [
