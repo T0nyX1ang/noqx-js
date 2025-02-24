@@ -95,6 +95,7 @@ const puzzle_type = [
   "putteria",
   "railpool",
   "ripple",
+  "shakashaka",
 ];
 
 const noqx_module = [
