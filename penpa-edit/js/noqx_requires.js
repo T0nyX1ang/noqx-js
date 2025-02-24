@@ -94,6 +94,7 @@ const puzzle_type = [
   "pipelink",
   "putteria",
   "railpool",
+  "ripple",
 ];
 
 const noqx_module = [
