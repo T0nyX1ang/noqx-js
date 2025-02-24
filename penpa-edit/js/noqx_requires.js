@@ -88,6 +88,7 @@ const puzzle_type = [
   "nuriuzu",
   "onsen",
   "paintarea",
+  "patchwork",
 ];
 
 const noqx_module = [
