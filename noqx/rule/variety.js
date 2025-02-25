@@ -14,16 +14,16 @@ function yaji_count(target, src_cell, arrow_direction, color = "black", unshade_
    * A grid fact should be defined first.
    */
   const [src_r, src_c] = src_cell;
-  const op = arrow_direction in [0, 1] ? "<" : ">";
+  const op = [0, 1].includes(arrow_direction) ? "<" : ">";
 
   const shade_clue = unshade_clue ? "" : ` not ${color}(${src_r}, ${src_c}),`;
 
-  if (arrow_direction in [1, 2]) {
+  if ([1, 2].includes(arrow_direction)) {
     // left, right
     return `:-${shade_clue} #count { C1 : ${color}(${src_r}, C1), C1 ${op} ${src_c} } != ${target}.`;
   }
 
-  if (arrow_direction in [0, 3]) {
+  if ([0, 3].includes(arrow_direction)) {
     // up, down
     return `:-${shade_clue} #count { R1 : ${color}(R1, ${src_c}), R1 ${op} ${src_r} } != ${target}.`;
   }

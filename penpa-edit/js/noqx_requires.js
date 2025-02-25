@@ -117,6 +117,7 @@ const puzzle_type = [
   "tatamibari",
   "tentaisho",
   "tents",
+  "tetrochain",
 ];
 
 const noqx_module = [
