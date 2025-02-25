@@ -126,6 +126,7 @@ const puzzle_type = [
   "view",
   "voxas",
   "yajikazu",
+  "yajilin",
 ];
 
 const noqx_module = [
