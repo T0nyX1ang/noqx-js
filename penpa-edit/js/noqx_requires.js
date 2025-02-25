@@ -81,6 +81,7 @@ const puzzle_type = [
   "norinori",
   "norinuri",
   "nothing",
+  "nothree",
   "numlin",
   "numrope",
   "nuribou",
