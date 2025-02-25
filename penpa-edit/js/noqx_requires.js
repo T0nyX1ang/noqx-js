@@ -118,6 +118,7 @@ const puzzle_type = [
   "tentaisho",
   "tents",
   "tetrochain",
+  "tetrominous",
 ];
 
 const noqx_module = [
