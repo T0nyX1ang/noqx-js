@@ -122,6 +122,7 @@ const puzzle_type = [
   "tilepaint",
   "triplace",
   "usoone",
+  "usotatami",
 ];
 
 const noqx_module = [
