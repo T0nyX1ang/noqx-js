@@ -115,6 +115,7 @@ const puzzle_type = [
   "tapaloop",
   "tasquare",
   "tatamibari",
+  "tentaisho",
 ];
 
 const noqx_module = [
