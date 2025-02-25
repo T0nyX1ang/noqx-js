@@ -123,6 +123,7 @@ const puzzle_type = [
   "triplace",
   "usoone",
   "usotatami",
+  "view",
 ];
 
 const noqx_module = [
