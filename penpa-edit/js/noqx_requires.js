@@ -124,6 +124,7 @@ const puzzle_type = [
   "usoone",
   "usotatami",
   "view",
+  "voxas",
 ];
 
 const noqx_module = [
