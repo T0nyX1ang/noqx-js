@@ -121,6 +121,7 @@ const puzzle_type = [
   "tetrominous",
   "tilepaint",
   "triplace",
+  "usoone",
 ];
 
 const noqx_module = [
