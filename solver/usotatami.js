@@ -1,6 +1,6 @@
 /** The Uso-tatami solver. */
 
-function rect_constraint() {
+function usotatami_rect_constraint() {
   /**
    * Generate a cell relevant constraint for rectangles with the width/height of 1.
    */
@@ -19,7 +19,7 @@ modules["usotatami"] = {
     solver.add_program_line(edge(puzzle.row, puzzle.col));
     solver.add_program_line(adjacent("edge"));
     solver.add_program_line(all_rect_region());
-    solver.add_program_line(rect_constraint());
+    solver.add_program_line(usotatami_rect_constraint());
     solver.add_program_line(avoid_region_border_crossover());
     solver.add_program_line(`:- { upleft(R, C) } != ${puzzle.text.size}.`);
 
