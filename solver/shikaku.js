@@ -7,12 +7,12 @@ modules["shikaku"] = {
     solver.reset();
     solver.register_puzzle(puzzle);
 
-    fail_false(Array.from(puzzle.text.keys()).length > 0, "No clues found.");
+    fail_false(puzzle.text.size > 0, "No clues found.");
     solver.add_program_line(grid(puzzle.row, puzzle.col));
     solver.add_program_line(edge(puzzle.row, puzzle.col));
     solver.add_program_line(adjacent("edge"));
     solver.add_program_line(all_rect_region());
-    solver.add_program_line(`:- { upleft(R, C) } != ${Array.from(puzzle.text.keys()).length}.`);
+    solver.add_program_line(`:- { upleft(R, C) } != ${puzzle.text.size}.`);
 
     for (const [point, num] of puzzle.text.entries()) {
       const [r, c, d, pos] = extract_point(point);

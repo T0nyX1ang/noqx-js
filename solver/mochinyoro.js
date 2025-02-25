@@ -16,7 +16,7 @@ modules["mochinyoro"] = {
     solver.add_program_line(all_rect("green"));
     solver.add_program_line(no_rect("black"));
 
-    fail_false(Array.from(puzzle.text.keys()).length > 0, "No clues found.");
+    fail_false(puzzle.text.size > 0, "No clues found.");
     for (const [point, num] of puzzle.text.entries()) {
       const [r, c, d, pos] = extract_point(point);
       validate_direction(r, c, d);
