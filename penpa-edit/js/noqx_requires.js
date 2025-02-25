@@ -14,6 +14,7 @@ const puzzle_type = [
   "castle",
   "cave",
   "cbanana",
+  "chocona",
   "circlesquare",
   "cocktail",
   "cojun",
