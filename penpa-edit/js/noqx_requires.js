@@ -129,6 +129,7 @@ const puzzle_type = [
   "yajilin",
   "yajilin_regions",
   "yajitatami",
+  "yinyang",
 ];
 
 const noqx_module = [
