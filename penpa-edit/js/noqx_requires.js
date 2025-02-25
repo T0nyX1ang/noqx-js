@@ -113,6 +113,7 @@ const puzzle_type = [
   "symmarea",
   "tapa",
   "tapaloop",
+  "tasquare",
 ];
 
 const noqx_module = [
