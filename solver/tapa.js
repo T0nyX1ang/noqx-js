@@ -152,8 +152,10 @@ modules["tapa"] = {
       clue_dict[[r, c]] = clue_dict[[r, c]] || [];
       clue_dict[[r, c]].push(clue);
 
-      solver.add_program_line(`not black(${r}, ${c}).`);
-      solver.add_program_line(valid_tapa(r, c));
+      if (clue_dict[[r, c]].length === 1) {
+        solver.add_program_line(`not black(${r}, ${c}).`);
+        solver.add_program_line(valid_tapa(r, c));
+      }
     }
 
     for (const [rc, clue] of Object.entries(clue_dict)) {
