@@ -113,7 +113,7 @@ function make_param(id, type, name, value) {
 }
 
 $(document).ready(function () {
-  const CLINGO_WASM_URL = `https://cdn.jsdelivr.net/npm/clingo-wasm@0.2.1/dist/clingo.wasm`;
+  const CLINGO_WASM_URL = `https://cdn.jsdelivr.net/npm/clingo-wasm@0.3.2/dist/clingo.wasm`;
   clingo.init(CLINGO_WASM_URL);
 
   const urlBase = "./penpa-edit/#";
